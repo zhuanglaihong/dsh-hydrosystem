@@ -1,0 +1,26 @@
+{
+  "name": "@iheadwater/dsh-hydrosystem",
+  "version": "0.1.0-alpha.8",
+  "description": "Hydrology tools and an expert preset for DeepSeek Harness",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "engines": { "node": ">=24.9.0", "dsh": "0.2.2-rc.1" },
+  "publishConfig": { "access": "public" },
+  "exports": {
+    ".": { "types": "./lib/index.d.ts", "default": "./lib/index.js" },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": ["lib", "python", "core", "tools", "cordis.patch.yml", "locale", "icon.svg", "README.md", "LICENSE"],
+  "dsh": { "manifestVersion": 1, "bundle": { "patch": "./cordis.patch.yml" } },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "4.1.0",
+    "@deepseek-ai/dsh-tools": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-jobs": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1"
+  },
+  "dependencies": { "@deepseek-ai/schemastery": "3.18.5-alpha.1" }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "@iheadwater/dsh-hydrosystem",
+  "version": "0.0.1-dev.15",
+  "private": true,
+  "type": "module",
+  "description": "Hydrosystem tools for DeepSeek Harness",
+  "license": "Apache-2.0",
+  "engines": {
+    "dsh": "0.2.1-rc.5"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-workspace-controller"
+      ]
+    }
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json",
+    "./tools": "./tools.js",
+    "./research": "./research.js",
+    "./environment": "./environment.js"
+  },
+  "files": [
+    "index.js",
+    "bridge.js",
+    "managed-node.js",
+    "workspace.js",
+    "client.js",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml",
+    "connection.json",
+    "payload",
+    "tools.js",
+    "research.js",
+    "environment.js",
+    "studies.js"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "0.2.1-rc.5",
+    "@deepseek-ai/dsh-jobs": "0.2.1-rc.5"
+  }
+}

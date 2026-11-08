@@ -1,0 +1,622 @@
+diff --git a/docs/guides/dsh-desktop.md b/docs/guides/dsh-desktop.md
+index e4d1682..af6a95b 100644
+--- a/docs/guides/dsh-desktop.md
++++ b/docs/guides/dsh-desktop.md
+@@ -4,7 +4,7 @@ hydrosystem 的 DSH 开发插件提供四类研究工具、水文研究员 prese
+ 
+ ## 当前可部署工件
+ 
+-已验收版本为 `@iheadwater/dsh-hydrosystem` 0.0.1-dev.9，目标为 Windows x64、官方 DSH Desktop V0.2.1-rc.5。当前 `.tgz` 使用 Windows 环境引导程序；不能把该文件直接作为 Mac 安装包。源码位于 [integrations/dsh](../../integrations/dsh/README.md)，仓库不携带维护者的 Python 环境、研究数据、登录信息或本地构建工件。
++当前工作台验收版本为 `@iheadwater/dsh-hydrosystem` 0.0.1-dev.15，目标为 Windows x64、官方 DSH Desktop V0.2.1-rc.5。已在指定桌面验证研究创建与会话绑定、环境元数据、四个右侧入口、旧研究报告与图表，以及一次主 Agent 只读工具调用；科学执行沿用原 payload，本轮未重跑四类科学计算。当前 `.tgz` 使用 Windows 环境引导程序；不能把该文件直接作为 Mac 安装包。源码位于 [integrations/dsh](../../integrations/dsh/README.md)，仓库不携带维护者的 Python 环境、研究数据、登录信息或本地构建工件。
+ 
+ 在另一台兼容 Windows 电脑取得该 `.tgz` 后，通过 DSH 插件管理入口安装本地包；也可使用那台电脑 Desktop 自带的 CLI：
+ 
+@@ -14,7 +14,11 @@ hydrosystem 的 DSH 开发插件提供四类研究工具、水文研究员 prese
+ 
+ 首次激活下载私有 Python 和锁定科学依赖，需要网络、可写 profile 与数 GiB 的磁盘空间。日志位于 `<profile>/hydrosystem/releases/<release-id>/hydrosystem/.hydrosystem/installation.log`，成功报告为同目录 `setup-result.json`。安装不会自动创建 Study 或执行科学计算。
+ 
+-加载后可选择“水文研究员”。新会话先按 DSH 原流程选择工作区；对话建立后点击标题栏“研究成果”，在右侧查看结果。首次研究需要明确初始化 Study；新机器没有旧机器已算出的图表。只需使用能力时不复制旧虚拟环境；迁移真实研究另行核对 Study、数据与配置。
++加载后可在“研究实例”选择或新建 Study，选择已有工作区，再开始研究对话；工作区、水文研究员 preset 和 Study 一次绑定。对话建立后点击标题栏“产物”，在右侧查看结果。新机器没有旧机器已算出的图表。只需使用能力时不复制旧虚拟环境；迁移真实研究另行核对 Study、数据与配置。
++
++## 工作台开发版
++
++工作台开发包将 Host 功能拆分为节点运行时、水文工具、研究管理和环境查询，仍然安装同一个 bundle。“研究实例”支持查看、选择和明确新建研究；从这里开始新对话会保留选中的研究，已有对话独立绑定。“环境与节点”显示实际解释器、uv、五包版本和来源。对话右上角通过“文件、产物、实验、终端”打开原生右侧标签，详情见 [DSH 接入 README](../../integrations/dsh/README.md)。安装新工件后须重开 Desktop 验证 Host 与 Client 一致；dev.15 重启后已确认四个 Host 插件和 preset 共五个组件运行中。
+ 
+ ## macOS Apple Silicon 与已有安装器
+ 
+diff --git a/integrations/dsh/README.md b/integrations/dsh/README.md
+index bac01ae..51129ff 100644
+--- a/integrations/dsh/README.md
++++ b/integrations/dsh/README.md
+@@ -16,16 +16,22 @@
+ 
+ ## 水文研究 demo
+ 
+-安装本 bundle 后，侧边栏提供“水文工作台”，新会话可选择“水文研究员”。工作台读取当前绑定节点的 Study，展示最近 100 条活动、XAJ 率定与验证指标和最多 6 张经哈希核验的 PNG；刷新只读取记录，不开始计算。当前 demo 使用一个固定 Study，尚不提供逐会话选研究或跨研究历史发现。
++安装本 bundle 后，侧边栏提供“水文工作台”，新会话可选择“水文研究员”。工作台读取当前绑定节点的 Study，展示最近 100 条活动、XAJ 率定与验证指标和最多 6 张经哈希核验的 PNG；刷新只读取记录，不开始计算。“研究实例”发现当前节点 studies 目录中的最多 200 个直接子目录，支持选择已有研究和明确输入目标后新建研究。选择保存在当前查询会话；管理页同时选择已有 DSH 工作区，新建对话时一次绑定工作区、水文 preset 和该研究，已有对话保留自己的绑定。科学任务运行期间拒绝切换其所属会话的研究，提交后的后台任务固定原研究根。跨节点研究发现另行实现。
+ 
+-对话标题栏的“研究成果”在 DSH 原有右侧栏打开成果区，中间保持对话；“任务与试验”作为另一个右侧标签查看活动、任务引用和结果。科学报告提供指标、时段、停止原因、用量及原始证据，图表可点击展开。使用框架自带的放大、关闭、分栏和布局恢复。全页工作台仍保留为辅助概览入口。新建空白会话需要先按 DSH 的原有流程选择工作区并开始对话，再使用标题栏入口；现有研究对话可以直接打开右侧成果区。
++对话标题栏提供“文件、产物、实验、终端”四个快捷入口，均在 DSH 原有右侧栏打开；文件树、文件预览与终端复用 DSH，产物和实验由水文工作台注册。中间保持对话，实验页展示节点当前运行的科学任务及所选 Study 的活动、任务引用和结果。科学报告提供指标、时段、停止原因、用量及原始证据，图表可点击展开。使用框架自带的放大、关闭、分栏和布局恢复。全页工作台仍保留为辅助概览入口。新建空白会话需要先按 DSH 的原有流程选择工作区并开始对话，再使用标题栏入口；现有研究对话可以直接打开右侧成果区。
+ 
+-右侧标签可见时，当前会话的后台任务登记、结束和轮次结束事件触发读取刷新，不启动轮询、不执行科学计算；手动刷新继续可用。跨会话运行的研究需要手动刷新，当前单 Study 演示尚不提供完整跨会话事件订阅。图表与报告详情的选中状态暂只在组件存续期间保留；对话中的任意文字引用尚不能自动定位到自定义成果标签。
++右侧标签可见时，当前会话的后台任务登记、结束和轮次结束事件触发读取刷新，不执行科学计算；检测到节点科学任务运行时，可见页每 5 秒读取状态，隐藏或卸载停止检查。手动刷新继续可用。首次读取时没有运行任务且新任务来自另一会话，需要手动刷新。图表与报告详情及分类按会话保存在本机浏览器存储；对话中的任意文字引用尚不能自动定位到自定义成果标签。
+ 
+ 工作台通过内置会话命令 `/hydro_workspace` 读取与 Agent 工具 `hydrosystem_workbench` 相同的结果；命令使用独立会话传输，Agent 工具只返回图表引用，不返回图像正文。UI 的只读投影暂直接读取 Study 0.2 的活动文件；正式版应统一提供公共研究证据查询接口。损坏或越界的证据显示警告，保留其他可读结果。图表点击下载 PNG，任务行可展开查看参数、结果与引用。
+ 
+ 此 demo 不改变已安装的科学 Policy，也不表示第一阶段的剩余功能已经完成。preset 明确要求后台句柄通过 `job_output` 获取最终结果，区分执行成功、预测效果与算法收敛。MCP、CLI 仍使用原有公共业务实现。
+ 
++## 插件组成与环境
++
++一个 bundle 装配节点运行时（根入口）、水文工具（`/tools`）、研究管理（`/research`）、环境查询（`/environment`）四个 Host 插件，以及客户端工作台和官方 preset。运行时服务负责固定环境与进程生命周期；工具只编排公共科学接口；研究插件提供 `/hydro_studies`、`/hydro_workspace` 与只读 Agent 工作台工具；环境插件提供 `/hydro_environment`。关闭研究或环境插件会显示命令不可用，不将查询错误解释成空研究。更改 Host 组合后须正常退出并重开 Desktop，使前后端加载同一版本。
++
++“环境与节点”读取绑定解释器的公共环境状态，显示 Python、虚拟环境、五个上游包实际与要求版本、来源、锁指纹、私有 uv 版本、CPU/内存和执行域。本页只查询元数据，不安装依赖、不执行科学验证、不切换环境；其他已部署节点和环境切换尚未接入。解释器或元数据失败保留错误，由用户刷新重试。账号和模型接入留待独立插件，本 bundle 不注册 Codex 授权入口。
++
+ ## 原型准备
+ 
+ 在已有锁定 `.venv` 的源码节点，用 Node 执行 `node integrations/dsh/build-prototype.mjs <新的绝对输出目录>`，再在输出目录执行 `npm pack`。构建器只复制 bundle 并记录显式源码绑定，不安装依赖、不创建 Study、不改变现有数据设置。输出目录的父目录须已存在；重复目标拒绝覆盖。
+@@ -34,6 +40,6 @@
+ 
+ ## 正式交付待完成
+ 
+-Study 授权历史发现、逐会话研究绑定、快速/精细率定方案、可选限额和时限，以及全量科学与异常恢复验收仍在开发。只读原型使用开发源码和现有环境；托管模式需要独立验证真实桌面加载、科学执行和取消，不能用环境安装通过替代。
++跨节点 Study 授权历史发现、快速/精细率定方案、可选限额和时限，以及全量科学与异常恢复验收仍在开发。只读原型使用开发源码和现有环境；托管模式需要独立验证真实桌面加载、科学执行和取消，不能用环境安装通过替代。
+ 
+ 公共工具定义位于 `hydrosystem/tool_definitions/`，`ToolCatalog` 负责部署过滤、独立 schema 和请求校验；MCP 使用同一目录。`python -m hydrosystem.bridge --help` 说明本地进程桥接入口，其部署路径由调用适配器绑定，模型请求只接受发现或具名工具调用。
+diff --git a/integrations/dsh/build-prototype.mjs b/integrations/dsh/build-prototype.mjs
+index d24ba4e..baf05b6 100644
+--- a/integrations/dsh/build-prototype.mjs
++++ b/integrations/dsh/build-prototype.mjs
+@@ -10,7 +10,7 @@ const output = resolve(process.argv[2])
+ const python = join(projectRoot, '.venv', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python')
+ await access(python)
+ await mkdir(output, { recursive: false })
+-for (const file of ['package.json', 'index.js', 'bridge.js', 'managed-node.js', 'workspace.js', 'client.js', 'icon.svg', 'cordis.patch.yml']) {
++for (const file of ['package.json', 'index.js', 'bridge.js', 'managed-node.js', 'workspace.js', 'studies.js', 'tools.js', 'research.js', 'environment.js', 'client.js', 'icon.svg', 'cordis.patch.yml']) {
+   await copyFile(join(source, file), join(output, file))
+ }
+ await cp(join(source, 'locale'), join(output, 'locale'), { recursive: true })
+diff --git a/integrations/dsh/client.js b/integrations/dsh/client.js
+index c58f2ec..021f634 100644
+--- a/integrations/dsh/client.js
++++ b/integrations/dsh/client.js
+@@ -29,6 +29,19 @@ window.__ModuleLoader__.load({
+       basin: '流域', period: '时段', task: '任务', trial: '试验', stopReason: '停止原因',
+       goalValue: '率定目标', usage: '实际用量', units: '单位', reports: '研究报告',
+       viewTasks: '查看任务与试验', viewResults: '查看研究成果', showDetails: '展开原始证据',
++      studies: '研究实例', environments: '环境与节点', files: '文件', artifacts: '产物', experiments: '实验', terminal: '终端',
++      selectedStudy: '当前选择', selectStudy: '选择此研究', newStudy: '新建研究', goalLabel: '研究目标',
++      studyHelp: '选择研究后从此页面开始新对话；已有对话保留各自的研究绑定',
++      newStudyHelp: '明确创建一项独立研究；只初始化记录，不启动计算',
++      environmentHelp: '实际解释器、五包版本与来源；本页刷新只查询，不安装或升级',
++      metadataOnly: '元数据检查：不代表科学闭环或 GPU 可用性验收',
++      package: '包', installedVersion: '实际版本', expectedVersion: '发布要求',
++      node: '本机执行节点', python: 'Python', virtualEnvironment: '虚拟环境', uvPath: 'uv 程序',
++      runtime: '执行域', lockDigest: '发布锁 SHA-256', activeJobs: '节点运行任务',
++      noActiveJobs: '当前节点没有运行中的科学任务', allArtifacts: '参数与模型产物',
++      boundStudy: '此对话绑定的研究', openChat: '在此研究中新建对话',
++      commandUnavailable: '研究或环境插件尚未就绪，请检查插件状态；更新插件后需重开桌面应用',
++      workspace: '工作区', chooseWorkspace: '请选择工作区', workspaceRequired: '请在研究实例页面选择工作区，再新建对话',
+     }
+     const en = { ...zh, panel: 'Hydrology workbench', subtitle: 'HYDROSYSTEM · RESEARCH DEMO',
+       title: 'Connect your hydrology research', intro: 'Data, models and traceable evidence in one research workflow.',
+@@ -52,6 +65,18 @@ window.__ModuleLoader__.load({
+       basin: 'Basin', period: 'Period', task: 'Task', trial: 'Trial', stopReason: 'Termination',
+       goalValue: 'Objective', usage: 'Actual usage', units: 'Units', reports: 'Research reports',
+       viewTasks: 'View tasks and trials', viewResults: 'View outputs', showDetails: 'Expand raw evidence',
++      studies: 'Studies', environments: 'Environment and node', files: 'Files', artifacts: 'Artifacts', experiments: 'Experiments', terminal: 'Terminal',
++      selectedStudy: 'Selected study', selectStudy: 'Select study', newStudy: 'Create study', goalLabel: 'Research goal',
++      studyHelp: 'Start a new conversation here after selecting a study. Existing conversations retain their own binding.',
++      newStudyHelp: 'Explicitly create independent research records without starting computation.',
++      environmentHelp: 'Actual interpreter, package versions and sources. Refresh queries metadata without installing or upgrading.',
++      metadataOnly: 'Metadata check; scientific execution and GPU availability are not verified by this query.',
++      package: 'Package', installedVersion: 'Installed', expectedVersion: 'Required', node: 'Local execution node',
++      python: 'Python', virtualEnvironment: 'Virtual environment', uvPath: 'uv executable', runtime: 'Execution root',
++      lockDigest: 'Lock SHA-256', activeJobs: 'Active node tasks', noActiveJobs: 'No scientific tasks are running on this node',
++      allArtifacts: 'Parameters and model artifacts', boundStudy: 'Study bound to this conversation', openChat: 'New conversation in this study',
++      commandUnavailable: 'Research or environment plugins are unavailable. Check plugin status and reopen Desktop after updating.',
++      workspace: 'Workspace', chooseWorkspace: 'Select a workspace', workspaceRequired: 'Select a workspace on the Studies page before opening a conversation.',
+     }
+     const css = `
+       .hydro-page{height:100%;overflow:auto;color:var(--dsw-alias-label-primary);padding:32px clamp(24px,4vw,48px) 48px;box-sizing:border-box;font-size:13px}
+@@ -95,11 +120,13 @@ window.__ModuleLoader__.load({
+       .hydro-pane summary{cursor:pointer;padding:8px 0}.hydro-pane dl{margin:12px 0}.hydro-pane dt{color:var(--dsw-alias-label-secondary);margin-top:10px}.hydro-pane dd{margin:4px 0;overflow-wrap:anywhere}
+       .hydro-header-button{font-size:12px;padding:5px 9px;white-space:nowrap}
+     `
+-    function ResearchPane({ useTabInfo, load, watch, mode, t }) {
++    function ResearchPane({ useTabInfo, load, watch, mode, storageKey, t }) {
+       const { tab } = useTabInfo()
+       const [view, setView] = React.useState(null), [busy, setBusy] = React.useState(false)
+-      const [error, setError] = React.useState(''), [selected, setSelected] = React.useState(null)
+-      const [category, setCategory] = React.useState('reports')
++      const restored = React.useMemo(() => { try { return JSON.parse(localStorage.getItem(storageKey) ?? '{}') } catch { return {} } }, [storageKey])
++      const [error, setError] = React.useState(''), [selected, setSelected] = React.useState(restored.selected ?? null)
++      const [category, setCategory] = React.useState(restored.category === 'figures' ? 'figures' : 'reports')
++      React.useEffect(() => { try { localStorage.setItem(storageKey, JSON.stringify({ selected, category })) } catch { /* Preview remains usable without local storage. */ } }, [storageKey, selected, category])
+       const live = React.useRef(true), running = React.useRef(false), dirty = React.useRef(false)
+       async function refresh() {
+         if (running.current) { dirty.current = true; return }
+@@ -121,6 +148,11 @@ window.__ModuleLoader__.load({
+         return watch(refresh)
+       }, [tab.visible, watch])
+       React.useEffect(() => tab.actions.bindCommands({ refresh }), [tab.actions])
++      React.useEffect(() => {
++        if (!tab.visible || !view?.runtime?.active?.length || busy) return
++        const timer = setTimeout(() => { void refresh() }, 5000)
++        return () => clearTimeout(timer)
++      }, [tab.visible, view, busy])
+       const list = view?.activities ?? []
+       const reports = list.filter(a => ['hydromodel.calibrate', 'hydromodel.simulate', 'torchhydro.train', 'torchhydro.evaluate'].includes(a.operation) && a.result)
+       const names = { 'hydromodel.calibrate': 'calibrationReport', 'hydromodel.simulate': 'validationReport', 'torchhydro.train': 'trainingReport', 'torchhydro.evaluate': 'evaluationReport',
+@@ -142,7 +174,7 @@ window.__ModuleLoader__.load({
+       return h('section', { className: 'hydro-pane', 'aria-busy': busy }, h('style', null, paneCss),
+         h('div', { className: 'hydro-bar' }, h('h2', null, t(mode === 'tasks' ? 'trials' : 'results')),
+           h('button', { onClick: refresh, disabled: busy }, t('refresh'))),
+-        h('div', { className: 'hydro-muted' }, t('fixedStudy')),
++        h('div', { className: 'hydro-muted' }, t('boundStudy'), ' · ', view?.study?.goal ?? t('empty')),
+         h('div', { className: 'hydro-muted' }, t('autoUpdate')),
+         h('div', { className: 'hydro-bar', style: { marginTop: 12 } }, h('button', { onClick: () => go(mode === 'tasks' ? 'results' : 'tasks') }, t(mode === 'tasks' ? 'viewResults' : 'viewTasks'))),
+         error && h('div', { role: 'alert', className: 'hydro-notice' }, error, ' ', h('button', { onClick: refresh }, t('retry'))),
+@@ -167,7 +199,10 @@ window.__ModuleLoader__.load({
+             ].filter(([, value]) => value).flatMap(([key, value]) => [h('dt', { key: key + 'dt' }, t(key)), h('dd', { key: key + 'dd', className: key === 'task' ? 'hydro-ref' : '' }, value)])),
+             result?.usage && h('details', null, h('summary', null, t('usage')), h('pre', null, JSON.stringify(result.usage, null, 2))),
+             source(selectedActivity))
+-          : mode === 'tasks' ? h('div', null, ...list.map(activity => h('article', { key: activity.activity_ref, className: 'hydro-card' },
++          : mode === 'tasks' ? h('div', null,
++            h('h3', null, t('activeJobs')),
++            view.runtime?.active?.length ? h('pre', null, JSON.stringify(view.runtime.active, null, 2)) : h('p', { className: 'hydro-muted' }, t('noActiveJobs')),
++            ...list.map(activity => h('article', { key: activity.activity_ref, className: 'hydro-card' },
+             h('h3', null, title(activity)), h('div', { className: 'hydro-muted' }, status(activity.status), ' · ', new Date(activity.created_at).toLocaleString()),
+             activity.result?.task_ref && h('div', { className: 'hydro-ref', style: { margin: '8px 0' } }, activity.result.task_ref),
+             h('button', { onClick: () => setSelected(activity.activity_ref) }, t('evidence')))))
+@@ -182,15 +217,75 @@ window.__ModuleLoader__.load({
+               activity.result?.objective && h('p', null, activity.result.objective.name, ' ', number(activity.result.objective.value)),
+               activity.result?.stop_reason === 'budget_exhausted' && h('p', { className: 'hydro-muted' }, t('stop')),
+               h('button', { onClick: () => setSelected(activity.activity_ref) }, t('evidence')))),
++            category === 'reports' && view.artifacts?.length > 0 && h('section', { className: 'hydro-card' }, h('h3', null, t('allArtifacts')),
++              ...view.artifacts.map(item => h('details', { key: item.reference.artifact_id },
++                h('summary', null, item.reference.kind ?? item.operation),
++                h('div', { className: 'hydro-ref' }, item.reference.artifact_id),
++                h('button', { onClick: () => setSelected(item.activity_ref) }, t('evidence')),
++                h('pre', null, JSON.stringify(item.reference, null, 2))))),
+             ...(category === 'figures' ? view.images : []).map(item => h('button', { className: 'hydro-figure-button', key: item.reference.content_hash, onClick: () => setSelected(item.activity_ref) },
+               h('h3', null, title(item)), h('img', { className: 'hydro-thumb', src: item.src, alt: title(item), loading: 'lazy' }))))))
+     }
+     function ResearchHeader({ open, t }) {
+       const [error, setError] = React.useState('')
+       return h(React.Fragment, null, h('style', null, paneCss),
+-        h('button', { className: 'hydro-header-button', onClick: () => {
+-          try { open(); setError('') } catch (failure) { setError(failure.message) }
+-        } }, t('results')), error && h('span', { role: 'alert' }, error))
++        h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'flex-end' } },
++          ...[['files', 'files'], ['artifacts', 'hydro-results'], ['experiments', 'hydro-tasks'], ['terminal', 'terminal']].map(([label, kind]) =>
++            h('button', { key: kind, className: 'hydro-header-button', onClick: () => {
++              try { open(kind); setError('') } catch (failure) { setError(failure.message) }
++            } }, t(label)))), error && h('span', { role: 'alert' }, error))
++    }
++    function ManagementPage({ mode, query, openChat, workspaceSource, t }) {
++      const source = React.useMemo(() => ({ subscribe: listener => workspaceSource.subscribe(listener),
++        getSnapshot: () => workspaceSource.getSnapshot() }), [workspaceSource])
++      const workspaces = React.useSyncExternalStore(source.subscribe, source.getSnapshot).items
++      const [workspaceId, setWorkspaceId] = React.useState(workspaces.length === 1 ? workspaces[0].workspaceId : '')
++      const [snapshot, setSnapshot] = React.useState(null), [error, setError] = React.useState('')
++      const [busy, setBusy] = React.useState(false), [goal, setGoal] = React.useState('')
++      const view = snapshot?.mode === mode ? snapshot.value : null
++      const alive = React.useRef(true), revision = React.useRef(0)
++      async function run(request) {
++        const id = ++revision.current
++        setBusy(true)
++        try {
++          const value = await query(request)
++          if (alive.current && id === revision.current) { setSnapshot({ mode, value }); setError(''); if (request?.action === 'create') setGoal('') }
++        } catch (failure) { if (alive.current && id === revision.current) setError(failure.message) }
++        finally { if (alive.current && id === revision.current) setBusy(false) }
++      }
++      React.useEffect(() => { alive.current = true; setSnapshot(null); setError(''); void run(); return () => { alive.current = false; ++revision.current } }, [mode])
++      const detail = (label, value) => h(React.Fragment, { key: label }, h('dt', { className: 'hydro-muted' }, t(label)), h('dd', { className: 'hydro-ref', style: { margin: '6px 0 16px', overflowWrap: 'anywhere' } }, value))
++      return h('main', { className: 'hydro-page', 'aria-busy': busy }, h('style', null, css), h('div', { className: 'hydro-inner' },
++        h('h1', null, t(mode)), h('p', { className: 'hydro-muted' }, t(mode === 'studies' ? 'studyHelp' : 'environmentHelp')),
++        mode === 'studies' && h('label', null, t('workspace'), ' ', h('select', { value: workspaceId, onChange: event => setWorkspaceId(event.target.value),
++          style: { font: 'inherit', padding: 8, borderRadius: 8, color: 'inherit', background: 'var(--dsw-alias-background-primary)', border: '1px solid var(--dsw-alias-border-l3)' } },
++          h('option', { value: '' }, t('chooseWorkspace')), ...workspaces.map(item => h('option', { key: item.workspaceId, value: item.workspaceId }, item.title || item.path)))),
++        h('div', { className: 'hydro-actions' }, h('button', { disabled: busy, onClick: () => { void run() } }, t('refresh')),
++          mode === 'studies' && h('button', { disabled: busy || !view || !workspaceId, onClick: () => { void openChat(undefined, workspaceId).catch(failure => setError(failure.message)) } }, t('openChat'))),
++        error && h('div', { role: 'alert', className: 'hydro-notice' }, error),
++        busy && !view && h('p', { role: 'status' }, t('loading')),
++        mode === 'studies' && view && h(React.Fragment, null,
++          ...view.studies.map(study => h('article', { className: 'hydro-card', key: study.id, style: { marginBottom: 12 } },
++            h('h2', null, study.goal), h('p', { className: 'hydro-ref hydro-muted' }, study.study_ref),
++            h('p', { className: 'hydro-muted' }, study.created_at ? new Date(study.created_at).toLocaleString() : '—'),
++            h('button', { disabled: busy || study.id === view.selected, onClick: () => { void run({ action: 'select', id: study.id }) } }, t(study.id === view.selected ? 'selectedStudy' : 'selectStudy')))),
++          ...view.warnings.map((message, index) => h('p', { role: 'alert', key: index }, message)),
++          h('section', { className: 'hydro-card' }, h('h2', null, t('newStudy')), h('p', { className: 'hydro-muted' }, t('newStudyHelp')),
++            h('form', { onSubmit: event => { event.preventDefault(); void run({ action: 'create', goal: goal.trim() }) } },
++              h('label', null, t('goalLabel'), h('textarea', { value: goal, maxLength: 2000, required: true,
++                style: { display: 'block', width: '100%', minHeight: 80, margin: '12px 0', padding: 12, color: 'inherit', background: 'transparent', border: '1px solid var(--dsw-alias-border-l3)', borderRadius: 8, font: 'inherit' },
++                onChange: event => setGoal(event.target.value) })),
++              h('button', { type: 'submit', disabled: busy || !goal.trim() }, t('newStudy'))))),
++        mode === 'environments' && view && h(React.Fragment, null,
++          h('section', { className: 'hydro-card' }, h('h2', null, t('node')),
++            h('p', null, view.node.platform, ' / ', view.node.arch, ' · CPU ', view.node.cpu_threads, ' · ', (view.node.memory_bytes / 1073741824).toFixed(1), ' GiB'),
++            h('dl', null, detail('python', view.python_version + ' · ' + view.interpreter), detail('virtualEnvironment', view.virtual_environment),
++              detail('uvPath', (view.uv_version ?? '—') + ' · ' + view.uv_executable), detail('runtime', view.node.runtime_root), detail('lockDigest', view.lock_digest))),
++          h('div', { className: 'hydro-notice' }, t('metadataOnly')),
++          ...Object.entries(view.packages).map(([name, value]) => h('section', { key: name, className: 'hydro-card', style: { marginBottom: 12 } },
++            h('h2', null, name), h('p', null, t('installedVersion'), ' ', value.version, ' · ', t('expectedVersion'), ' ', value.expected),
++            h('div', { className: 'hydro-ref' }, value.module_path),
++            h('details', null, h('summary', null, t('provenance')), h('pre', null, JSON.stringify(value.source, null, 2))))))))
+     }
+     function Page({ load, openChat, t }) {
+       const [view, setView] = React.useState(null), [busy, setBusy] = React.useState(false)
+@@ -251,37 +346,43 @@ window.__ModuleLoader__.load({
+             h('figcaption', null, image.operation, h('div', { className: 'hydro-ref hydro-muted' }, image.reference.artifact_id))))) : h('p', { className: 'hydro-muted' }, t('noFigures'))))))
+     }
+     return {
+-      inject: ['slots', 'locale', 'sessions', 'remote', 'remote.commands', 'uiWorkspace', 'sidebarRight', 'sidebarRightTabs'],
++      inject: ['slots', 'locale', 'sessions', 'remote', 'remote.commands', 'workspaces', 'uiWorkspace', 'sidebarRight', 'sidebarRightTabs'],
+       apply(ctx) {
+         const ns = 'hydrosystemWorkbench'
+         ctx.effect(() => ctx.locale.register(ns, { zh, en }))
+         const t = ctx.locale.bind(ns)
+         let querySession
+         let sessionPromise
+-        let loading
++        const loading = new Map()
+         async function ensureQuerySession() {
+           if (querySession) return querySession
+           sessionPromise ??= ctx.sessions.create({ agentPreset: 'hydrology' }).then(id => { querySession = id; return id })
+             .catch(error => { sessionPromise = undefined; throw error })
+           return sessionPromise
+         }
+-        async function load() {
+-          if (loading) return loading
+-          loading = read().finally(() => { loading = undefined })
+-          return loading
++        async function load(sessionId) {
++          const id = sessionId ?? await ensureQuerySession()
++          if (!loading.has(id)) loading.set(id, command('hydro_workspace', undefined, id).finally(() => { loading.delete(id) }))
++          return loading.get(id)
+         }
+-        async function read() {
+-          const id = await ensureQuerySession()
++        async function command(name, args, sessionId) {
++          const id = sessionId ?? await ensureQuerySession()
+           return ctx.sessions.using(id, { source: 'controllerOperation' }, async () => {
+-            const result = await ctx.remote.commands.execute(id, '/hydro_workspace', [])
++            const result = await ctx.remote.commands.execute(id, '/' + name + (args ? ' ' + JSON.stringify(args) : ''), [])
+             if (!result.ok) throw new Error(result.error.message)
++            if (!result.value) throw new Error(t('commandUnavailable'))
+             const answer = result.value.result
+             if (answer.kind !== 'success') throw new Error(answer.text ?? answer.kind)
+             return JSON.parse(answer.text)
+           })
+         }
+-        async function openChat(prompt) {
+-          const id = await ctx.sessions.create({ agentPreset: 'hydrology' })
++        async function openChat(prompt, workspaceId) {
++          const choices = ctx.workspaces.list.getSnapshot().items
++          const workspace = choices.find(item => item.workspaceId === workspaceId) ?? (choices.length === 1 ? choices[0] : undefined)
++          if (!workspace) throw new Error(t('workspaceRequired'))
++          const selection = await command('hydro_studies')
++          const id = await ctx.sessions.create({ workspaceId: workspace.workspaceId, agentPreset: 'hydrology' })
++          if (selection.studies.some(study => study.id === selection.selected)) await command('hydro_studies', { action: 'select', id: selection.selected }, id)
+           ctx.uiWorkspace.openSession(id)
+           if (prompt) await ctx.sessions.using(id, { source: 'controllerOperation' }, async reference => {
+             const result = await reference.binding.session.prompt([{ type: 'text', text: prompt }], 'queue')
+@@ -302,16 +403,17 @@ window.__ModuleLoader__.load({
+           const id = '@iheadwater/dsh-hydrosystem/' + mode
+           ctx.effect(() => ctx.sidebarRightTabs.register({ id, kind, title: () => t(label),
+             guide: [{ id: kind, order: mode === 'results' ? 5 : 6, title: () => t(label),
+-              description: () => t('fixedStudy'), icon: Icon }],
++              description: () => t('boundStudy'), icon: Icon }],
+           }))
+           ctx.slots.inject('sidebar.right.pane.tab', () => ctx.slots.register({
+             name: 'sidebar.right.pane.tab', key: id, locale: ns,
+-            inject: sessionId => ({ load, watch: listener => watch(sessionId, listener), mode, t }),
++            inject: sessionId => ({ load: () => load(sessionId), watch: listener => watch(sessionId, listener), mode,
++              storageKey: 'hydrosystem:view:' + sessionId + ':' + mode, t }),
+           }, ResearchPane))
+         }
+         ctx.slots.inject('conversation.session.header.actions', () => ctx.slots.register({
+           name: 'conversation.session.header.actions', id: 'hydrosystem-results', order: 30, locale: ns,
+-          inject: () => ({ open: () => ctx.sidebarRight.openTab('hydro-results'), t }),
++          inject: sessionId => ({ open: kind => ctx.sidebarRight.openTabIn(sessionId, kind), t }),
+         }, ResearchHeader))
+         ctx.slots.inject('main', () => ctx.slots.register({ name: 'main', key: 'hydrology', locale: ns,
+           inject: () => ({ load, openChat, t }),
+@@ -319,6 +421,15 @@ window.__ModuleLoader__.load({
+         ctx.slots.inject('sidebar.panellist', () => ctx.slots.register({ name: 'sidebar.panellist', id: 'hydrology',
+           order: 1, label: () => t('panel'), locale: ns,
+         }, Icon))
++        for (const [mode, order] of [['studies', 2], ['environments', 3]]) {
++          const key = 'hydrology-' + mode
++          ctx.slots.inject('main', () => ctx.slots.register({ name: 'main', key, locale: ns,
++            inject: () => ({ mode, query: request => command(mode === 'studies' ? 'hydro_studies' : 'hydro_environment', request), openChat, workspaceSource: ctx.workspaces.list, t }),
++          }, ManagementPage))
++          ctx.slots.inject('sidebar.panellist', () => ctx.slots.register({ name: 'sidebar.panellist', id: key,
++            order, label: () => t(mode), locale: ns,
++          }, Icon))
++        }
+       },
+     }
+   },
+diff --git a/integrations/dsh/cordis.patch.yml b/integrations/dsh/cordis.patch.yml
+index 423989f..c62f4cd 100644
+--- a/integrations/dsh/cordis.patch.yml
++++ b/integrations/dsh/cordis.patch.yml
+@@ -1,6 +1,12 @@
+ - insert:
+     - id: hydrosystem
+       name: '@iheadwater/dsh-hydrosystem'
++    - id: hydrosystem-tools
++      name: '@iheadwater/dsh-hydrosystem/tools'
++    - id: hydrosystem-research
++      name: '@iheadwater/dsh-hydrosystem/research'
++    - id: hydrosystem-environment
++      name: '@iheadwater/dsh-hydrosystem/environment'
+     - id: preset-hydrology
+       name: '@deepseek-ai/dsh-agent-preset'
+       config:
+diff --git a/integrations/dsh/index.js b/integrations/dsh/index.js
+index 3c2cffa..59c4d79 100644
+--- a/integrations/dsh/index.js
++++ b/integrations/dsh/index.js
+@@ -1,13 +1,12 @@
+ /** Hydrosystem tools and scientific jobs over the shared Python interface. */
+ import { readFile } from 'node:fs/promises'
+-import { randomUUID } from 'node:crypto'
+ import { fileURLToPath } from 'node:url'
+ import { invoke } from './bridge.js'
+ import { prepareNode } from './managed-node.js'
+-import { readWorkspace } from './workspace.js'
++import { StudyBindings } from './studies.js'
+ 
+-export const name = 'hydrosystem'
+-export const inject = ['tools', 'jobs', 'commands']
++export const name = 'hydrosystem-node'
++export const inject = []
+ 
+ /** Register bound tools; worker operations use the built-in job registry. */
+ export async function apply(ctx) {
+@@ -33,14 +32,14 @@ export async function apply(ctx) {
+       controllers.delete(controller)
+     }
+   }
+-  const run = (request, callerSignal) => {
++  const run = (request, callerSignal, selected = connection) => {
+     if (closing) return Promise.reject(new Error('Hydrosystem plugin is stopping.'))
+     const controller = new AbortController()
+     const cancel = () => controller.abort()
+     callerSignal?.addEventListener('abort', cancel, { once: true })
+     if (callerSignal?.aborted) cancel()
+     controllers.add(controller)
+-    const work = invoke(connection, request, controller.signal).finally(() => {
++    const work = invoke(selected, request, controller.signal).finally(() => {
+       controllers.delete(controller)
+       callerSignal?.removeEventListener('abort', cancel)
+       pending.delete(work)
+@@ -50,75 +49,11 @@ export async function apply(ctx) {
+   }
+   const discovered = await run({ action: 'discover' })
+   if (discovered.is_error) throw new Error(JSON.stringify(discovered.value))
+-  const workspace = async () => {
+-    const status = await run({ action: 'call', name: 'hydrosystem_study', arguments: { operation: 'status' } })
+-    if (status.is_error) throw new Error(JSON.stringify(status.value))
+-    return readWorkspace(connection.workRoot, status.value)
+-  }
+-  ctx.effect(() => ctx.commands.register({
+-    definitionId: '@iheadwater/dsh-hydrosystem/workspace', name: 'hydro_workspace',
+-    description: 'Read the current hydrology workbench',
+-    async handler(invocation) {
+-      if (invocation.rawInput.trim()) return { kind: 'error', text: 'This command accepts no arguments.' }
+-      try { return { kind: 'success', text: JSON.stringify(await workspace()) } }
+-      catch (error) { return { kind: 'error', text: error.message } }
+-    },
+-  }))
+-  ctx.effect(() => ctx.tools.register({ name: 'hydrosystem_workbench',
+-    description: 'Read the current Study workbench: recorded activities, scientific results and verified figure references. Use the exact counts fields when reporting totals. Does not start research.',
+-    parameters: { type: 'object', properties: {}, additionalProperties: false },
+-    output: { schema: {}, render: (_args, value) => [{ type: 'text', text: JSON.stringify(value) }] },
+-    async execute() {
+-      const view = await workspace()
+-      return { ...view, images: view.images.map(({ src, ...metadata }) => metadata) }
++  const bindings = await StudyBindings.open(connection)
++  ctx.provide('hydrosystemNode', { connection, tools: discovered.value.tools, bindings, busy: new Set(),
++    run, forSession(sessionId) {
++      const selected = { ...connection, workRoot: bindings.root(sessionId) }
++      return (request, signal) => run(request, signal, selected)
+     },
+-  }))
+-  for (const tool of discovered.value.tools) {
+-    const worker = tool.execution.pool === 'worker'
+-    ctx.effect(() => ctx.tools.register({
+-      name: tool.name,
+-      description: tool.description + (worker
+-        ? ' Runs as a DSH background job. Use job_output to obtain the scientific result; job_kill cancels the owned execution. A job handle is not the completed scientific result.' : ''),
+-      parameters: tool.input_schema,
+-      output: { schema: {}, render: (_args, value) => [{ type: 'text', text: JSON.stringify(value) }] },
+-      async execute(args, exec) {
+-        if (closing || exec.signal.aborted) throw new Error('Hydrosystem call cancelled before submission.')
+-        const argumentsWithId = { ...args, execution_id: args.execution_id ?? randomUUID() }
+-        const request = { action: 'call', name: tool.name, arguments: argumentsWithId }
+-        if (!worker) {
+-          const result = await run(request, exec.signal)
+-          if (result.is_error) throw new Error(JSON.stringify(result.value))
+-          return result.value
+-        }
+-        if (!exec.agent) throw new Error('Scientific background work requires an owning Agent session.')
+-        const capacity = await run({ action: 'call', name: 'hydrosystem_runtime', arguments: {} }, exec.signal)
+-        if (capacity.is_error) throw new Error(JSON.stringify(capacity.value))
+-        const active = capacity.value.active.filter(item => item.pool === 'worker')
+-        if (active.length >= capacity.value.limits.worker_slots) {
+-          throw new Error(JSON.stringify({ code: 'RESOURCE_BUSY', retryable: true,
+-            message: 'Worker capacity is occupied; no work was queued.',
+-            details: { capacity: capacity.value.limits.worker_slots, active, automatic_retry: false } }))
+-        }
+-        if (exec.signal.aborted) throw new Error('Hydrosystem call cancelled before job registration.')
+-        const jobId = ctx.jobs.start({
+-          kind: 'hydrosystem', label: tool.name, owner: exec.agent.id,
+-          toolCall: { callId: exec.callId, rootCallId: exec.rootCallId },
+-          run(job) {
+-            const controller = new AbortController()
+-            job.updateProgress(tool.name)
+-            const done = run(request, controller.signal).then(result => {
+-              if (result.is_error) return {
+-                status: result.value.code === 'EXECUTION_CANCELLED' ? 'killed' : 'failed',
+-                detail: result.value.code, result: JSON.stringify(result.value),
+-              }
+-              return { status: 'completed', result: JSON.stringify(result.value) }
+-            }, error => ({ status: 'failed', detail: error.message }))
+-            return { cancel: () => controller.abort(), done }
+-          },
+-        })
+-        return { kind: 'background', job_id: jobId, execution_id: argumentsWithId.execution_id,
+-          operation: tool.name, next_action: 'Read the owned job with job_output; do not resubmit the scientific task.' }
+-      },
+-    }))
+-  }
++  })
+ }
+diff --git a/integrations/dsh/package.json b/integrations/dsh/package.json
+index ad3355c..1b410ab 100644
+--- a/integrations/dsh/package.json
++++ b/integrations/dsh/package.json
+@@ -1,16 +1,61 @@
+ {
+   "name": "@iheadwater/dsh-hydrosystem",
+-  "version": "0.0.1-dev.9",
++  "version": "0.0.1-dev.15",
+   "private": true,
+   "type": "module",
+   "description": "Hydrosystem tools for DeepSeek Harness",
+   "license": "Apache-2.0",
+-  "engines": { "dsh": "0.2.1-rc.5" },
+-  "dsh": { "bundle": { "patch": "./cordis.patch.yml" }, "client": {
+-    "platform": "web", "immediately": true,
+-    "inject": ["@deepseek-ai/dsh-client-ui-layout", "@deepseek-ai/dsh-client-ui-sidebar", "@deepseek-ai/dsh-client-ui-sidebar-right", "@deepseek-ai/dsh-client-ui-conversation", "@deepseek-ai/dsh-client-ui-workspace", "@deepseek-ai/dsh-api-session-controller", "@deepseek-ai/dsh-client-locale", "@deepseek-ai/dsh-api-remotes"]
+-  } },
+-  "exports": { ".": "./index.js", "./client": "./client.js", "./locale/*.json": "./locale/*.json", "./icon": "./icon.svg", "./package.json": "./package.json" },
+-  "files": ["index.js", "bridge.js", "managed-node.js", "workspace.js", "client.js", "locale", "icon.svg", "cordis.patch.yml", "connection.json", "payload"],
+-  "peerDependencies": { "@deepseek-ai/dsh-tools": "0.2.1-rc.5", "@deepseek-ai/dsh-jobs": "0.2.1-rc.5" }
++  "engines": {
++    "dsh": "0.2.1-rc.5"
++  },
++  "dsh": {
++    "bundle": {
++      "patch": "./cordis.patch.yml"
++    },
++    "client": {
++      "platform": "web",
++      "immediately": true,
++      "inject": [
++        "@deepseek-ai/dsh-client-ui-layout",
++        "@deepseek-ai/dsh-client-ui-sidebar",
++        "@deepseek-ai/dsh-client-ui-sidebar-right",
++        "@deepseek-ai/dsh-client-ui-conversation",
++        "@deepseek-ai/dsh-client-ui-workspace",
++        "@deepseek-ai/dsh-api-session-controller",
++        "@deepseek-ai/dsh-client-locale",
++        "@deepseek-ai/dsh-api-remotes",
++        "@deepseek-ai/dsh-api-workspace-controller"
++      ]
++    }
++  },
++  "exports": {
++    ".": "./index.js",
++    "./client": "./client.js",
++    "./locale/*.json": "./locale/*.json",
++    "./icon": "./icon.svg",
++    "./package.json": "./package.json",
++    "./tools": "./tools.js",
++    "./research": "./research.js",
++    "./environment": "./environment.js"
++  },
++  "files": [
++    "index.js",
++    "bridge.js",
++    "managed-node.js",
++    "workspace.js",
++    "client.js",
++    "locale",
++    "icon.svg",
++    "cordis.patch.yml",
++    "connection.json",
++    "payload",
++    "tools.js",
++    "research.js",
++    "environment.js",
++    "studies.js"
++  ],
++  "peerDependencies": {
++    "@deepseek-ai/dsh-tools": "0.2.1-rc.5",
++    "@deepseek-ai/dsh-jobs": "0.2.1-rc.5"
++  }
+ }
+diff --git a/integrations/dsh/tests/workspace.test.js b/integrations/dsh/tests/workspace.test.js
+index 1a474b7..66e960d 100644
+--- a/integrations/dsh/tests/workspace.test.js
++++ b/integrations/dsh/tests/workspace.test.js
+@@ -18,12 +18,16 @@ test('workbench preserves scientific termination and validates image evidence',
+       activity_ref: 'activity-example', study_ref: 'study-example', operation: 'hydromodel.calibrate',
+       status: 'succeeded', created_at: '2026-11-05T00:00:00Z',
+       result: { objective: { name: 'NSE', value: 0.7 }, stop_reason: 'budget_exhausted',
++        parameter_set: { artifact_id: 'parameters-one', kind: 'parameter_set' },
++        repeated_parameter_set: { artifact_id: 'parameters-one', kind: 'parameter_set' },
+         image_ref: { format: 'png', path: 'objects/' + hash + '.png', content_hash: hash } },
+     }))
+     const status = { initialized: true, study: { study_ref: 'study-example', goal: 'Demo' } }
+     const view = await readWorkspace(root, status)
+     assert.deepEqual(view, JSON.parse(JSON.stringify(view)))
+     assert.equal(view.activities[0].result.stop_reason, 'budget_exhausted')
++    assert.equal(view.artifacts.length, 1)
++    assert.equal(view.artifacts[0].reference.artifact_id, 'parameters-one')
+     assert.deepEqual(view.counts, { activities: 1, completed: 1, figures: 1 })
+     assert.equal(view.images[0].src, 'data:image/png;base64,iVBORw0KGgo=')
+     await writeFile(join(root, 'objects', hash + '.png'), 'changed')
+diff --git a/integrations/dsh/workspace.js b/integrations/dsh/workspace.js
+index c0ef362..c8f3ea7 100644
+--- a/integrations/dsh/workspace.js
++++ b/integrations/dsh/workspace.js
+@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto'
+ /** Return bounded, current research evidence; never start or initialize research. */
+ export async function readWorkspace(root, status) {
+   const view = { updated_at: new Date().toISOString(), study: status.study,
+-    accounts: status.accounts ?? {}, activities: [], images: [], warnings: [],
++    accounts: status.accounts ?? {}, activities: [], images: [], artifacts: [], warnings: [],
+     counts: { activities: 0, completed: 0, figures: 0 } }
+   if (!status.initialized) return view
+   const bound = await realpath(root)
+@@ -37,6 +37,9 @@ export async function readWorkspace(root, status) {
+   const seen = new Set()
+   async function collect(value, activity) {
+     if (!value || typeof value !== 'object') return
++    if (typeof value.artifact_id === 'string' && !view.artifacts.some(item => item.reference.artifact_id === value.artifact_id)) {
++      view.artifacts.push({ activity_ref: activity.activity_ref, operation: activity.operation, reference: value })
++    }
+     if (value.format === 'png' && typeof value.content_hash === 'string') {
+       const hash = value.content_hash
+       if (seen.has(hash) || view.images.length >= 6) return
+diff --git a/scripts/build_dsh_bundle.py b/scripts/build_dsh_bundle.py
+index 96770a7..3f63957 100644
+--- a/scripts/build_dsh_bundle.py
++++ b/scripts/build_dsh_bundle.py
+@@ -12,7 +12,7 @@ def build(output, *, uv, uv_licenses):
+     output = Path(output).resolve()
+     output.mkdir(parents=True, exist_ok=False)
+     source = ROOT/'integrations/dsh'
+-    for name in ('package.json', 'index.js', 'bridge.js', 'managed-node.js', 'workspace.js', 'client.js', 'icon.svg', 'cordis.patch.yml', 'README.md'):
++    for name in ('package.json', 'index.js', 'bridge.js', 'managed-node.js', 'workspace.js', 'studies.js', 'tools.js', 'research.js', 'environment.js', 'client.js', 'icon.svg', 'cordis.patch.yml', 'README.md'):
+         shutil.copy2(source/name, output/name)
+     shutil.copytree(source/'locale', output/'locale')
+     payload = output/'payload'
+diff --git a/tests/test_release_environment.py b/tests/test_release_environment.py
+index 66d9c57..2fde6ac 100644
+--- a/tests/test_release_environment.py
++++ b/tests/test_release_environment.py
+@@ -87,6 +87,7 @@ def test_published_wheel_requires_the_fixed_five_package_baseline(tmp_path):
+ 
+     assert metadata["Name"] == "hydrosystem"
+     assert metadata["Version"] == "0.2.0"
++    assert 'hydrosystem/bridge.py' not in names
+     assert 'hydrosystem/runtime/study_host.py' not in names
+     assert not any('references/v0.1' in name for name in names)
+     assert not any(name.startswith(('hydrosystem/adapters/hydrodataset/','hydrosystem/adapters/hydrodatasource/')) for name in names)

@@ -1,0 +1,29 @@
+{
+  "name": "dsh-hydrosystem-workspace",
+  "version": "0.1.0-alpha.8",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@11.28.5",
+  "engines": { "node": ">=24.9.0" },
+  "scripts": {
+    "build": "tsc -p packages/hydrosystem-plugin/tsconfig.json",
+    "typecheck": "tsc -p packages/hydrosystem-plugin/tsconfig.json --noEmit",
+    "test": "node --test tests/package.test.mjs",
+    "test:integration": "node --test tests/plugin.test.mjs tests/turn-policy.test.mjs",
+    "test:python": "python -m unittest discover -s tests/python -v",
+    "check": "pnpm run typecheck && pnpm run build && pnpm run test",
+    "prepare:core": "python scripts/prepare_core.py",
+    "pack:plugin": "python scripts/pack_plugin.py"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.1.0",
+    "@deepseek-ai/dsh-agent": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-jobs": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-llm": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.2.2-rc.1",
+    "@deepseek-ai/schemastery": "3.18.5-alpha.1",
+    "@types/node": "24.10.0",
+    "typescript": "5.9.3"
+  }
+}

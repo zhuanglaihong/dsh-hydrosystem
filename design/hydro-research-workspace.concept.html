@@ -1,0 +1,210 @@
+<div id="hydro-concept" aria-label="水文科研工作台交互概念">
+  <div class="hw-caption"><span>概念设计 · Hydro Research Workspace</span><span>全部数据为示意 · 未连接 DSH</span></div>
+  <div class="hw-window">
+    <header class="hw-top">
+      <div class="hw-brand"><i data-lucide="waves" aria-hidden="true"></i><strong>水文研究</strong><span class="hw-sub">DSH 工作空间</span></div>
+      <div class="hw-modes" aria-label="工作姿态"><button type="button" data-mode="research" aria-pressed="true">研究为主</button><button type="button" data-mode="chat" aria-pressed="false">对话为主</button></div>
+    </header>
+    <div class="hw-layout">
+      <aside class="hw-nav" aria-label="项目与研究资源">
+        <div class="hw-project"><span class="hw-eyebrow">当前项目</span><strong>梅溪流域径流研究</strong></div>
+        <label class="hw-label" for="hw-study">Study · 研究实例</label>
+        <select id="hw-study"><option value="baseline">XAJ 基准率定</option><option value="prior">属性先验范围对照</option></select>
+        <nav class="hw-links" aria-label="研究资源">
+          <button type="button" data-tab="data"><i data-lucide="database" aria-hidden="true"></i>数据与模型</button>
+          <button type="button" data-tab="runs" aria-pressed="true"><i data-lucide="flask-conical" aria-hidden="true"></i>实验</button>
+          <button type="button" data-tab="figures"><i data-lucide="chart-no-axes-combined" aria-hidden="true"></i>图表与成果</button>
+          <button type="button" data-tab="notes"><i data-lucide="notebook-pen" aria-hidden="true"></i>研究记录</button>
+          <button type="button" data-tab="environment"><i data-lucide="server" aria-hidden="true"></i>环境与算力</button>
+        </nav>
+        <div class="hw-nav-end"><span class="hw-eyebrow">此 Study 的对话</span><button type="button" id="hw-conversation"><i data-lucide="messages-square" aria-hidden="true"></i>率定方案与结果分析</button><span class="hw-sub">对话、实验和产物共同归档</span></div>
+      </aside>
+      <main class="hw-work">
+        <div class="hw-study-head"><div><span class="hw-eyebrow" id="hw-crumb">梅溪流域 / XAJ 基准率定</span><h2 id="hw-goal">建立可复现的径流模拟基线</h2></div><span class="hw-tag">Study 已绑定</span></div>
+        <div class="hw-split" data-focus="research">
+          <section class="hw-canvas" aria-label="研究画布">
+            <div class="hw-canvas-head"><div class="hw-row"><i data-lucide="flask-conical" id="hw-canvas-icon" aria-hidden="true"></i><h3 id="hw-canvas-title">实验与结果</h3></div><span class="hw-sub">选中对象即对话上下文</span></div>
+            <div class="hw-canvas-content" id="hw-content"></div>
+          </section>
+          <section class="hw-agent" aria-label="同一研究中的 DSH 对话">
+            <div class="hw-agent-head"><div class="hw-row"><i data-lucide="sparkles" aria-hidden="true"></i><strong>水文研究员</strong></div><span class="hw-sub">同一个 DSH 会话</span></div>
+            <div class="hw-context"><span class="hw-eyebrow">本次选中</span><strong id="hw-context-name">EXP-003 · 精细率定</strong><span class="hw-sub" id="hw-context-detail">固定数据 v1 · 验证期 2006—2008</span></div>
+            <div class="hw-thread">
+              <div class="hw-user">比较两次率定的验证结果，看看洪峰误差有没有改善。</div>
+              <div class="hw-answer"><span class="hw-eyebrow">回答示意</span><p id="hw-answer">EXP-003 的验证 NSE 高于快速率定，但洪峰仍有低估。应结合峰值、时间偏移和低流量表现判断，不能只看一个指标。</p><button type="button" id="hw-evidence"><i data-lucide="link" aria-hidden="true"></i><span id="hw-evidence-name">查看 EXP-003 证据</span></button></div>
+            </div>
+            <div class="hw-compose"><label class="hw-label" for="hw-draft">继续讨论</label><textarea id="hw-draft" rows="3" placeholder="围绕所选实验继续提问…"></textarea><div class="hw-compose-footer"><span class="hw-sub">使用 DSH 当前模型</span><span class="hw-sub">输入仅保留为草稿</span></div></div>
+          </section>
+        </div>
+        <details class="hw-console"><summary><span><i data-lucide="terminal" aria-hidden="true"></i>执行与日志</span><span class="hw-sub">按需展开</span></summary><div class="hw-console-content"><div class="hw-row"><strong>EXP-004</strong><span>示例快照：SCE-UA 正在搜索</span></div><div class="hw-sub">迭代 84 · 当前目标函数 0.18 · 尚未满足算法停止条件</div><pre>提交 → hydrosystem → hydromodel → 后台任务
+运行日志、停止原因和产物路径跟随该实验保存</pre><span class="hw-sub">实际运行时由 DSH jobs 与工具结果提供状态</span></div></details>
+      </main>
+    </div>
+    <footer class="hw-footer"><span><i data-lucide="plug" aria-hidden="true"></i>能力：hydrosystem</span><span>环境：hydro-cpu · 本机</span><span id="hw-status" aria-live="polite">正在查看 EXP-003 · 示例数据</span></footer>
+  </div>
+</div>
+<style>
+#hydro-concept{--hw-bg:light-dark(#ffffff,#151b20);--hw-nav:light-dark(#f5f7f8,#192127);--hw-soft:light-dark(#f1f5f5,#202d34);--hw-ink:light-dark(#202f38,#e2eaed);--hw-muted:light-dark(#596b76,#aabac4);--hw-line:light-dark(#dce4e7,#35444d);--hw-accent:light-dark(#136c72,#85d5cf);--hw-select:light-dark(#e0f0ee,#203e40);color:var(--hw-ink);font:400 13px/1.55 "Segoe UI","Microsoft YaHei",sans-serif;width:100%}
+#hydro-concept *{box-sizing:border-box}
+#hydro-concept [hidden]{display:none!important}
+#hydro-concept h2,#hydro-concept h3,#hydro-concept p{margin:0}
+#hydro-concept h2{font-size:19px;font-weight:500;line-height:1.5}
+#hydro-concept h3{font-size:14px;font-weight:500}
+#hydro-concept strong{font-weight:500}
+#hydro-concept button,#hydro-concept input,#hydro-concept textarea,#hydro-concept select{font:inherit;color:inherit}
+#hydro-concept button{background:transparent;border:1px solid transparent;border-radius:6px;padding:6px 9px;text-align:left;cursor:inherit;display:inline-flex;align-items:center;gap:7px;max-width:100%}
+#hydro-concept button:hover{background:var(--hw-soft)}
+#hydro-concept button[aria-pressed="true"]{color:var(--hw-accent);background:var(--hw-select)}
+#hydro-concept button:focus-visible,#hydro-concept select:focus-visible,#hydro-concept textarea:focus-visible{outline:2px solid var(--hw-accent);outline-offset:2px}
+#hydro-concept svg.lucide{width:16px;height:16px;flex-shrink:0}
+#hydro-concept .hw-caption{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--hw-muted);font-size:12px;margin-bottom:10px;padding-right:86px}
+#hydro-concept .hw-window{background:var(--hw-bg);border:1px solid var(--hw-line);border-radius:10px;overflow:clip}
+#hydro-concept .hw-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:14px 18px;border-bottom:1px solid var(--hw-line)}
+#hydro-concept .hw-brand{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+#hydro-concept .hw-brand>svg{color:var(--hw-accent);width:21px;height:21px}
+#hydro-concept .hw-brand strong{font-size:16px}
+#hydro-concept .hw-modes{display:flex;gap:3px}
+#hydro-concept .hw-sub{color:var(--hw-muted);font-size:12px}
+#hydro-concept .hw-eyebrow{display:block;font-size:11px;color:var(--hw-muted);margin-bottom:4px}
+#hydro-concept .hw-layout{display:grid;grid-template-columns:166px minmax(0,1fr)}
+#hydro-concept .hw-nav{padding:19px 12px;background:var(--hw-nav);border-right:1px solid var(--hw-line);display:flex;flex-direction:column;gap:16px;min-width:0}
+#hydro-concept .hw-project{padding:0 6px}
+#hydro-concept .hw-label{display:block;font-size:12px;color:var(--hw-muted)}
+#hydro-concept .hw-nav>.hw-label{margin-bottom:-13px;padding:0 6px}
+#hydro-concept select{width:100%;border:1px solid var(--hw-line);border-radius:6px;background:var(--hw-bg);padding:8px 6px;min-width:0}
+#hydro-concept .hw-links{display:flex;flex-direction:column;gap:4px}
+#hydro-concept .hw-links>button{width:100%}
+#hydro-concept .hw-nav-end{display:flex;flex-direction:column;gap:5px;margin-top:auto;padding-top:25px}
+#hydro-concept .hw-nav-end button{font-size:12px;align-items:flex-start}
+#hydro-concept .hw-nav-end>.hw-sub{padding:0 6px}
+#hydro-concept .hw-work{min-width:0}
+#hydro-concept .hw-study-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--hw-line)}
+#hydro-concept .hw-tag{font-size:11px;white-space:nowrap;color:var(--hw-accent)}
+#hydro-concept .hw-split{display:grid;grid-template-columns:minmax(0,1fr) var(--hw-agent-width,242px);min-height:545px;align-items:stretch}
+#hydro-concept .hw-split[data-focus="chat"]{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+#hydro-concept .hw-split[data-focus="chat"] .hw-agent{grid-column:1;grid-row:1;border-right:1px solid var(--hw-line);border-left:none}
+#hydro-concept .hw-split[data-focus="chat"] .hw-canvas{grid-column:2;grid-row:1}
+#hydro-concept .hw-canvas{min-width:0;display:flex;flex-direction:column}
+#hydro-concept .hw-canvas-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:13px 16px;border-bottom:1px solid var(--hw-line)}
+#hydro-concept .hw-canvas-head>.hw-sub{font-size:11px}
+#hydro-concept .hw-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+#hydro-concept .hw-canvas-content{padding:15px 16px;min-width:0;display:flex;flex-direction:column;gap:15px}
+#hydro-concept .hw-agent{display:flex;flex-direction:column;min-width:0;padding:14px;border-left:1px solid var(--hw-line);gap:14px}
+#hydro-concept .hw-agent-head{display:flex;flex-direction:column;gap:4px}
+#hydro-concept .hw-agent-head svg{color:var(--hw-accent)}
+#hydro-concept .hw-context{padding:10px 11px;background:var(--hw-soft);border-radius:6px;display:flex;flex-direction:column;gap:3px;font-size:12px}
+#hydro-concept .hw-thread{display:flex;flex-direction:column;gap:19px}
+#hydro-concept .hw-user{padding:10px 11px;background:var(--hw-select);border-radius:8px;line-height:1.7}
+#hydro-concept .hw-answer{display:flex;flex-direction:column;gap:9px;line-height:1.8}
+#hydro-concept .hw-answer button{color:var(--hw-accent);font-size:12px;padding-left:0}
+#hydro-concept .hw-compose{margin-top:auto;display:flex;flex-direction:column;gap:7px;padding-top:8px}
+#hydro-concept textarea{width:100%;min-height:85px;padding:10px;border:1px solid var(--hw-line);border-radius:8px;resize:vertical;background:var(--hw-bg)}
+#hydro-concept .hw-compose-footer{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+#hydro-concept .hw-compose-footer .hw-sub{font-size:11px}
+#hydro-concept .hw-table-wrap{overflow-x:auto;max-width:100%}
+#hydro-concept table{border-collapse:collapse;width:100%;font-size:12px}
+#hydro-concept th{font-size:11px;color:var(--hw-muted);font-weight:400;text-align:left}
+#hydro-concept th,#hydro-concept td{padding:8px 5px;border-bottom:1px solid var(--hw-line);vertical-align:middle}
+#hydro-concept td.num{font-variant-numeric:tabular-nums;text-align:right}
+#hydro-concept th.num{text-align:right}
+#hydro-concept tr.selected{background:var(--hw-select)}
+#hydro-concept td>button{padding:2px 0;color:var(--hw-accent);white-space:nowrap}
+#hydro-concept .hw-run-label{display:block;font-size:11px;color:var(--hw-muted)}
+#hydro-concept .hw-chart{width:100%;height:180px;display:block;overflow:visible}
+#hydro-concept .hw-chart text{font:11px "Segoe UI","Microsoft YaHei",sans-serif;fill:var(--hw-muted)}
+#hydro-concept .hw-chart .grid{stroke:var(--hw-line);stroke-width:1;fill:none}
+#hydro-concept .hw-chart .obs{stroke:var(--hw-muted);stroke-width:1.7;fill:none;stroke-dasharray:4 3}
+#hydro-concept .hw-chart .sim{stroke:var(--hw-accent);stroke-width:2.2;fill:none}
+#hydro-concept .hw-legend{display:flex;gap:15px;justify-content:flex-end;font-size:11px;color:var(--hw-muted)}
+#hydro-concept .hw-legend span{display:inline-flex;align-items:center;gap:5px}
+#hydro-concept .hw-legend b{display:inline-block;width:18px;height:2px;background:var(--hw-accent)}
+#hydro-concept .hw-legend .hw-observed{background:repeating-linear-gradient(to right,var(--hw-muted) 0 4px,transparent 4px 7px)}
+#hydro-concept .hw-metrics{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;font-variant-numeric:tabular-nums}
+#hydro-concept .hw-detail{display:flex;flex-direction:column;gap:10px;padding-top:2px}
+#hydro-concept .hw-detail-head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+#hydro-concept .hw-action{border-color:var(--hw-line)}
+#hydro-concept .hw-console{border-top:1px solid var(--hw-line)}
+#hydro-concept summary{padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;list-style:none}
+#hydro-concept summary>span:first-child{display:flex;align-items:center;gap:8px}
+#hydro-concept .hw-console-content{display:flex;flex-direction:column;gap:8px;padding:10px 16px 16px;background:var(--hw-nav)}
+#hydro-concept pre{font:12px/1.8 Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+#hydro-concept .hw-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:9px 14px;background:var(--hw-nav);border-top:1px solid var(--hw-line);font-size:11px;color:var(--hw-muted)}
+#hydro-concept .hw-footer>span{display:flex;align-items:center;gap:6px}
+#hydro-concept .hw-files{display:flex;flex-direction:column;gap:8px}
+#hydro-concept .hw-file{display:flex;align-items:flex-start;gap:9px;border-bottom:1px solid var(--hw-line);padding:8px 0}
+#hydro-concept .hw-file>div{display:flex;flex-direction:column;gap:4px;min-width:0;overflow-wrap:anywhere}
+#hydro-concept .hw-file svg{margin-top:3px}
+#hydro-concept .hw-note{border-left:2px solid var(--hw-accent);padding-left:12px;display:flex;flex-direction:column;gap:7px}
+#hydro-concept .hw-note p{line-height:1.8}
+#hydro-concept .hw-lineage{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--hw-muted)}
+#hydro-concept .hw-lineage button{padding:3px 6px;border-color:var(--hw-line)}
+#hydro-concept dl{display:grid;grid-template-columns:88px minmax(0,1fr);gap:9px 12px;margin:0;font-size:12px}
+#hydro-concept dt{color:var(--hw-muted)}
+#hydro-concept dd{margin:0;overflow-wrap:anywhere}
+@media(max-width:900px){#hydro-concept .hw-layout{grid-template-columns:143px minmax(0,1fr)}#hydro-concept .hw-split{grid-template-columns:minmax(0,1fr) 218px}#hydro-concept .hw-canvas-content{padding:13px 11px}#hydro-concept .hw-agent{padding:12px}#hydro-concept .hw-study-head{padding:15px}#hydro-concept .hw-sub{font-size:11px}}
+@media(max-width:720px){#hydro-concept .hw-layout{grid-template-columns:1fr}#hydro-concept .hw-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;border-right:0;border-bottom:1px solid var(--hw-line);padding:12px}#hydro-concept .hw-project{grid-column:1;grid-row:1/3}#hydro-concept .hw-nav>.hw-label{grid-column:2;margin:0;padding:0}#hydro-concept .hw-nav>select{grid-column:2}#hydro-concept .hw-links{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;gap:2px}#hydro-concept .hw-links>button{width:auto}#hydro-concept .hw-nav-end{display:none}#hydro-concept .hw-split,#hydro-concept .hw-split[data-focus="chat"]{grid-template-columns:1fr;min-height:0}#hydro-concept .hw-split[data-focus="research"] .hw-canvas{grid-column:1;grid-row:1}#hydro-concept .hw-split[data-focus="research"] .hw-agent{grid-column:1;grid-row:2}#hydro-concept .hw-split[data-focus="chat"] .hw-canvas{grid-column:1;grid-row:2}#hydro-concept .hw-split[data-focus="chat"] .hw-agent{grid-column:1;grid-row:1}#hydro-concept .hw-agent,#hydro-concept .hw-split[data-focus="chat"] .hw-agent{border:0;border-top:1px solid var(--hw-line)}#hydro-concept .hw-study-head{align-items:flex-start;flex-wrap:wrap}#hydro-concept .hw-caption{padding-right:0}#hydro-concept h2{font-size:17px}}
+@media(pointer:coarse){#hydro-concept button,#hydro-concept summary,#hydro-concept select{min-height:44px}#hydro-concept textarea,#hydro-concept select{font-size:16px}}
+</style>
+<script>
+(()=>{
+const root=document.getElementById('hydro-concept');
+const $=s=>root.querySelector(s);
+const state={mode:'research',tab:'runs',study:'baseline',run:'EXP-003'};
+const runs=[{id:'EXP-001',name:'初始参数',status:'已完成',nse:'0.62',kge:'0.67',bias:'+16%',factor:0.69},{id:'EXP-002',name:'快速率定',status:'已完成',nse:'0.76',kge:'0.79',bias:'−13%',factor:0.82},{id:'EXP-003',name:'精细率定',status:'已完成',nse:'0.81',kge:'0.83',bias:'−8%',factor:0.91},{id:'EXP-004',name:'重复随机种子',status:'运行中',nse:'—',kge:'—',bias:'—',factor:0.85}];
+const observed=[8,7,9,8,6,9,15,22,58,33,17,12,10,12,17,42,26,13,10,8,9,15,36,22,12,10,8,7,8,6];
+const names={runs:'实验与结果',data:'数据与模型',figures:'图表与成果',notes:'研究记录',environment:'环境与算力'};
+const saved=window.openai?.widgetState?.modelContent;
+if(saved&&['research','chat'].includes(saved.mode)&&Object.hasOwn(names,saved.tab)){state.mode=saved.mode;state.tab=saved.tab;if(['baseline','prior'].includes(saved.study))state.study=saved.study;if(runs.some(x=>x.id===saved.run))state.run=saved.run;}
+const run=()=>runs.find(x=>x.id===state.run);
+const studyName=()=>state.study==='baseline'?'XAJ 基准率定':'属性先验范围对照';
+function chart(){
+ const r=run();
+ const sim=observed.map((v,i)=>Math.max(2,v*r.factor+(i%4-1.5)*1.5));
+ const path=a=>a.map((v,i)=>(i?'L':'M')+(35+i*325/(a.length-1)).toFixed(1)+','+(139-v*1.75).toFixed(1)).join(' ');
+ return `<div class="hw-detail-head"><strong>${r.id} · 验证期过程线</strong><span class="hw-sub">示意 · 日尺度节选</span></div><div class="hw-legend"><span><b class="hw-observed"></b>实测</span><span><b></b>模拟</span></div><svg class="hw-chart" viewBox="0 0 380 182" role="img" aria-label="示意径流过程线，实测与模拟两条曲线对比"><title>示意数据：${r.id} 实测与模拟径流</title><path class="grid" d="M35 34H360 M35 87H360 M35 139H360"/><text x="0" y="16">Q（m³/s）</text><text x="11" y="38">60</text><text x="11" y="91">30</text><text x="18" y="143">0</text><path class="obs" d="${path(observed)}"/><path class="sim" d="${path(sim)}"/><text x="35" y="165">06-01</text><text x="177" y="165">06-15</text><text x="326" y="165">06-30</text></svg><div class="hw-metrics"><span>验证 NSE <strong>${r.nse}</strong></span><span>KGE <strong>${r.kge}</strong></span><span>峰值偏差 <strong>${r.bias}</strong></span></div>`;
+}
+function evidence(){return `<div class="hw-lineage"><button type="button" data-jump="data">数据 v1</button><span>→</span><button type="button" data-jump="runs">${state.run}</button><span>→</span><button type="button" data-jump="figures">验证图表</button><span>→</span><button type="button" data-jump="notes">研究结论</button></div>`;}
+function content(){
+ if(state.study==='prior')return `<span class="hw-eyebrow">研究设计 · 尚未提交实验</span><h3>只改变参数搜索范围，进行配对对照</h3><div class="hw-note"><p>基线与属性先验组使用相同数据、算法设置、种子集合和评价时段。</p><p>验证资料独立保留，不参与搜索范围制定。</p></div><dl><dt>对照组</dt><dd>默认参数范围</dd><dt>实验组</dt><dd>流域属性先验范围</dd><dt>当前状态</dt><dd>方案草稿 · 待确认</dd></dl><button type="button" class="hw-action" data-ask="讨论配对对照方案，先核对范围来源与验证期资料隔离，不提交实验。">带入对话讨论</button>`;
+ if(state.tab==='runs')return `<div class="hw-table-wrap"><table aria-label="示意实验列表"><thead><tr><th>实验</th><th>状态</th><th class="num">验证 NSE</th></tr></thead><tbody>${runs.map(r=>`<tr class="${r.id===state.run?'selected':''}"><td><button type="button" data-run="${r.id}" aria-pressed="${r.id===state.run}">${r.id}</button><span class="hw-run-label">${r.name}</span></td><td>${r.status}</td><td class="num">${r.nse}</td></tr>`).join('')}</tbody></table></div><div class="hw-detail">${chart()}</div><div class="hw-detail-head"><span class="hw-sub">固定验证期 2006—2008 · 指标仅为设计示例</span><button type="button" class="hw-action" data-ask="请比较 ${state.run} 与快速率定的验证表现，解释洪峰误差并引用对应图表。">让 Agent 分析</button></div>`;
+ if(state.tab==='figures')return `<div class="hw-detail">${chart()}</div><div class="hw-files"><div class="hw-file"><i data-lucide="image" aria-hidden="true"></i><div><strong>validation_hydrograph.png</strong><span class="hw-sub">${state.run} · 验证期径流过程线</span></div></div><div class="hw-file"><i data-lucide="file-text" aria-hidden="true"></i><div><strong>evaluation_report.md</strong><span class="hw-sub">指标、参数、时段、算法停止原因</span></div></div></div>${evidence()}<button type="button" class="hw-action" data-ask="基于 ${state.run} 的结果写一段研究结论，保留数据版本、验证时段和证据引用。">围绕该成果讨论</button>`;
+ if(state.tab==='data')return `<h3>本 Study 的输入与计算方案</h3><div class="hw-files"><div class="hw-file"><i data-lucide="database" aria-hidden="true"></i><div><strong>梅溪流域日尺度数据 · v1</strong><span class="hw-sub">降水 P、蒸散发 E、实测径流 Q</span></div></div><div class="hw-file"><i data-lucide="box" aria-hidden="true"></i><div><strong>XAJ · hydromodel</strong><span class="hw-sub">模型结构、参数范围与初始状态</span></div></div></div><dl><dt>率定期</dt><dd>2000—2005</dd><dt>验证期</dt><dd>2006—2008</dd><dt>算法方案</dt><dd>SCE-UA · 快速 / 精细 / 自定义</dd><dt>可复现信息</dt><dd>数据指纹、配置、代码与环境版本随实验保存</dd></dl><button type="button" class="hw-action" data-ask="检查当前数据、率定与验证时段、预热期和参数范围，再提出率定计划，暂不执行。">让 Agent 核对输入</button>`;
+ if(state.tab==='notes')return `<span class="hw-eyebrow">研究问题 → 假设 → 实验 → 证据 → 结论</span><h3>增加搜索精度能否改善洪峰模拟？</h3><div class="hw-note"><strong>阶段结论草稿 · 待研究者确认</strong><p>精细率定的整体验证指标有所改善，洪峰低估仍存在。下一步检查降水输入与模型结构，不直接依据 NSE 推断误差来源。</p></div>${evidence()}<dl><dt>关联对话</dt><dd>率定方案与结果分析</dd><dt>依据</dt><dd>EXP-002、EXP-003 与验证图表</dd><dt>写作出口</dt><dd>研究日志、实验小结、论文段落</dd></dl><button type="button" class="hw-action" data-ask="审阅这条阶段结论：哪些判断有证据，哪些仍是假设？">讨论这条结论</button>`;
+ return `<h3>当前执行环境</h3><dl><dt>执行节点</dt><dd>本机 · CPU</dd><dt>环境</dt><dd>hydro-cpu · uv 私有环境</dd><dt>解释器</dt><dd>Python 3.12 · 示例</dd><dt>上游能力</dt><dd>hydromodel · hydrodatasource · hydrodataset · hydroutils · torchhydro</dd><dt>检查状态</dt><dd>元数据可读；科学自检独立显示</dd><dt>任务归属</dt><dd>每次提交固定 Study 与环境快照</dd></dl><div class="hw-note"><strong>连接研究与执行</strong><p>从实验直接查看该次运行的环境、日志和产物；切换环境用于后续提交，既有实验保留原记录。</p></div><span class="hw-sub">远程节点、安装和环境切换作为后续能力接入</span>`;
+}
+function save(){window.openai?.setWidgetState?.({modelContent:{...state},privateContent:null})?.catch(()=>{});}
+function render(){
+ $('.hw-split').dataset.focus=state.mode;
+ root.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
+ root.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===state.tab)));
+ $('#hw-study').value=state.study;
+ $('#hw-crumb').textContent='梅溪流域 / '+studyName();
+ $('#hw-goal').textContent=state.study==='baseline'?'建立可复现的径流模拟基线':'验证属性先验对搜索效率的影响';
+ $('#hw-canvas-title').textContent=names[state.tab];
+ $('#hw-context-name').textContent=state.study==='baseline'?state.run+' · '+run().name:'属性先验范围对照 · 方案草稿';
+ $('#hw-context-detail').textContent=state.study==='baseline'?'固定数据 v1 · 验证期 2006—2008':'尚无实验 · 不混入基准 Study 的结果';
+ $('#hw-answer').textContent=state.study==='baseline'?(run().status==='运行中'?'该实验仍在运行，最终验证指标尚未生成。可以先查看已完成实验；当前搜索状态不能当作收敛结论。':'所选实验验证 NSE 为 '+run().nse+'。需要同时查看峰值偏差、峰现时间与低流量表现；这些数字仅为界面设计示例。'):'这是一项独立研究。建议先固定配对条件和验证协议，确认后再提交实验；基准研究可作为引用来源。';
+ $('#hw-evidence-name').textContent=state.study==='baseline'?'查看 '+state.run+' 证据':'查看配对对照方案';
+ $('#hw-content').innerHTML=content();
+ $('.hw-console').hidden=state.study!=='baseline';
+ $('#hw-status').textContent=(state.study==='baseline'?'正在查看 '+state.run:'正在查看独立对照 Study')+' · 示例数据';
+ if(globalThis.lucide)lucide.createIcons({attrs:{width:16,height:16}});
+}
+root.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b||!root.contains(b))return;
+ if(b.dataset.mode){state.mode=b.dataset.mode;}
+ else if(b.dataset.tab){state.tab=b.dataset.tab;}
+ else if(b.dataset.run){state.run=b.dataset.run;}
+ else if(b.dataset.jump){state.tab=b.dataset.jump;}
+ else if(b.dataset.ask){$('#hw-draft').value=b.dataset.ask;state.mode='chat';}
+ else if(b.id==='hw-evidence'){state.tab='figures';}
+ else if(b.id==='hw-conversation'){state.mode='chat';}
+ else return;
+ render();save();
+});
+$('#hw-study').addEventListener('change',e=>{state.study=e.target.value;$('#hw-draft').value='';render();save();});
+window.addEventListener('openai:set_globals',e=>{const s=e.detail?.globals?.widgetState?.modelContent;if(s&&['research','chat'].includes(s.mode)&&Object.hasOwn(names,s.tab)){state.mode=s.mode;state.tab=s.tab;if(['baseline','prior'].includes(s.study))state.study=s.study;if(runs.some(r=>r.id===s.run))state.run=s.run;render();}});
+render();
+if(globalThis.Tweak){const design={agentWidth:242};const t=new Tweak({container:root,onChange:()=>{root.style.setProperty('--hw-agent-width',design.agentWidth+'px');}});t.addSlider(design,'agentWidth',{label:'研究模式对话区宽度',min:220,max:320,step:10,unit:'px'});}
+})();
+</script>

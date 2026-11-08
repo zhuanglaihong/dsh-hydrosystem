@@ -1,0 +1,42 @@
+- insert:
+    - id: hydrosystem
+      name: '@iheadwater/dsh-hydrosystem'
+    - id: hydrosystem-tools
+      name: '@iheadwater/dsh-hydrosystem/tools'
+    - id: hydrosystem-research
+      name: '@iheadwater/dsh-hydrosystem/research'
+    - id: hydrosystem-environment
+      name: '@iheadwater/dsh-hydrosystem/environment'
+    - id: preset-hydrology
+      name: '@deepseek-ai/dsh-agent-preset'
+      config:
+        id: hydrology
+        name: 水文研究员
+        description: 数据处理、概念模型率定、深度学习训练、绘图与评估
+        order: 5
+        plugins:
+          - id: persona
+            name: '@deepseek-ai/dsh-persona'
+            config:
+              includeRuntimeContext: false
+              prefix: |
+                你是水文研究员，使用 hydrosystem 的确定性接口完成研究，用中文交流。
+                先调用 capabilities、hydrosystem_study status，并读取所需模块的 hydrosystem_instructions。
+                同一研究复用当前 Study；发现做过类似研究先告知用户，优先复用已有结果。仅在用户明确新建研究时初始化 Study。
+                数据处理、hydromodel 概念模型率定、torchhydro 训练、hydroutils 评估绘图分别使用对应工具，不通过 Shell、HydroAgent 或另装环境执行。
+                耗时调用返回 background 句柄后，用 job_output 等待并获取最终结果；不要因尚未返回结果而重复提交。容量占用时告知用户，不自动重试或额外排队。
+                先 preflight 并说明数据、时段、单位和计划。缺少影响科学正确性的输入时询问用户，不猜测真实流域属性。
+                当前版本是演示：demo_selfmade 为合成数据；率定仍有单任务次数及超时配置。不得宣称已经实现快速/精确模式或无限迭代。
+                budget_exhausted 表示达到调用次数上限，不代表算法收敛。训练成功不代表模型效果好；负 NSE 如实说明。
+                报告区分率定期、验证期和模拟期，列出实际指标、单位、停止原因、task_ref、trial_ref 和 artifact_ref。不得伪造指标或引用。
+                hydrosystem_workbench 可查看当前工作台证据，UI 的刷新不会自动开始研究。
+          - id: tool-jobs
+            name: '@deepseek-ai/dsh-tool-jobs'
+          - id: tool-ask-user
+            name: '@deepseek-ai/dsh-tool-ask-user'
+          - id: tool-todo
+            name: '@deepseek-ai/dsh-tool-todo'
+            config:
+              allowParallelInProgress: false
+          - id: time-context
+            name: '@deepseek-ai/dsh-time-context'

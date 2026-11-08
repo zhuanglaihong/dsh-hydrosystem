@@ -1,0 +1,154 @@
+{
+  "date": "2026-11-07",
+  "source_root": "D:\\project\\iHeadWater\\hydrosystem",
+  "source_commit": "691376b377950b2947a0fb4a90382db1847082bb",
+  "source_branch": "main",
+  "status": "historical_reference_only",
+  "files": [
+    {
+      "path": "integrations/dsh/bridge.js",
+      "sha256": "560f44295ace74fe2418e9b8a8530b449228d8e477795eb62487ddb9e5f4ee49",
+      "bytes": 3330
+    },
+    {
+      "path": "integrations/dsh/build-prototype.mjs",
+      "sha256": "1867a715578390e252115ca155487c152d582d6350946a5455488956a2640768",
+      "bytes": 1548
+    },
+    {
+      "path": "integrations/dsh/client.js",
+      "sha256": "c22de93535b9a4488c4d8f61b2c66281976c61b4d54e27fcb6aa4787e4601e70",
+      "bytes": 42297
+    },
+    {
+      "path": "integrations/dsh/codex-auth.js",
+      "sha256": "686b9e53083aa3cbcbac58f94788bdf54ee57b3f8620049037efd5aa36f691a3",
+      "bytes": 2643
+    },
+    {
+      "path": "integrations/dsh/cordis.patch.yml",
+      "sha256": "43001c1986cace04ae19ab8bb47b55596eabe8fe7f7f3d4914b2793b4fe429db",
+      "bytes": 2738
+    },
+    {
+      "path": "integrations/dsh/environment.js",
+      "sha256": "155d47f98765e8a9e7fdc0e2d57d79ec4d74e7dcfe29b20f554380cb393d5a8a",
+      "bytes": 2907
+    },
+    {
+      "path": "integrations/dsh/icon.svg",
+      "sha256": "11106dfdf31d2a08091ac22a9b7db02efa7b0c77e51103d2d8fa835d913e05a8",
+      "bytes": 294
+    },
+    {
+      "path": "integrations/dsh/index.js",
+      "sha256": "12f65c00322f6926c1d4e098d38d1591dfc3dd84e8415732f65bd0baeb92437d",
+      "bytes": 2566
+    },
+    {
+      "path": "integrations/dsh/locale/en.json",
+      "sha256": "a37f8fc2ba1da4562d1834cb387de79c2b0338d64fcb907f5876348561389196",
+      "bytes": 117
+    },
+    {
+      "path": "integrations/dsh/locale/zh.json",
+      "sha256": "0bd41738a9bca3d0bda9e956296808421287c5b0f9dedc46c8ceb1c7aac8e116",
+      "bytes": 128
+    },
+    {
+      "path": "integrations/dsh/managed-node.js",
+      "sha256": "cf42b72d10ffcb653068baec620c7a3ffba620cee092158e960b1696822346d7",
+      "bytes": 5913
+    },
+    {
+      "path": "integrations/dsh/package.json",
+      "sha256": "ee5acb620c6e4ba8182612c84bb0a909c27e9979dc9bf2b11e8f16e4315964c0",
+      "bytes": 1585
+    },
+    {
+      "path": "integrations/dsh/README.md",
+      "sha256": "27a67b42178ac31fd67659428546927b4aae114e1c29883a74df67a8792edb87",
+      "bytes": 7382
+    },
+    {
+      "path": "integrations/dsh/research.js",
+      "sha256": "4b18d739ef72c949a8d4806adec86837c1b18a850a76d5502786defc0adfb8e7",
+      "bytes": 3791
+    },
+    {
+      "path": "integrations/dsh/studies.js",
+      "sha256": "b51fda8a8e29a51a83752a4eb77fd12905a4aa11e7f14f90f7909e2927660025",
+      "bytes": 3446
+    },
+    {
+      "path": "integrations/dsh/tests/client.test.js",
+      "sha256": "79a90eb83ff9dbe8d0d29b2e03da928d66a53b85bd58429017a57b87df76457f",
+      "bytes": 5895
+    },
+    {
+      "path": "integrations/dsh/tests/codex-auth.test.js",
+      "sha256": "173edfb1f01d73098affbe8efa5283265415010a938fa21562c0736033bd50e7",
+      "bytes": 3801
+    },
+    {
+      "path": "integrations/dsh/tests/managed-node.test.js",
+      "sha256": "db774434bce8476850d61babe4d7c695dd18361580b8351a4758742280222521",
+      "bytes": 1282
+    },
+    {
+      "path": "integrations/dsh/tests/studies.test.js",
+      "sha256": "d745e5326bd19602ea925e85c8d4f59a9f95f773940702420ddc2719b9a180b4",
+      "bytes": 3761
+    },
+    {
+      "path": "integrations/dsh/tests/tools.test.js",
+      "sha256": "80bd354ecd97afebbaeb72ff28c46e890668b8174d4c0ac005179d8fdf031a89",
+      "bytes": 2278
+    },
+    {
+      "path": "integrations/dsh/tests/workspace.test.js",
+      "sha256": "1583139487611898b125a33dadadb367a08010dd43ee2578d4b49d7d274636dc",
+      "bytes": 3433
+    },
+    {
+      "path": "integrations/dsh/tools.js",
+      "sha256": "45c2a55f4b388c9c266eb352ace6e2d4ba853fcd0a049aff4e5841950bcf9580",
+      "bytes": 3693
+    },
+    {
+      "path": "integrations/dsh/workspace.js",
+      "sha256": "0bc3cad1fe517b38d6b3533a93d2be1ffa738faaf5eb1ff6babf72fc817610ac",
+      "bytes": 3680
+    },
+    {
+      "path": "scripts/build_dsh_bundle.py",
+      "sha256": "1fc294266583d75085b0f06dc4208a3a8591e8f589b647d08245c94367616d08",
+      "bytes": 1914
+    },
+    {
+      "path": "scripts/check_dsh_bundle.py",
+      "sha256": "d354476942ba16a6aeb51db8a674b3487e6574cd51ad6145a6cd5f4a7252052e",
+      "bytes": 1407
+    },
+    {
+      "path": "docs/guides/dsh-desktop.md",
+      "sha256": "1456cf587164c19e070761d718913da333c6bcec3ddcbccd9c58cb62c47650a4",
+      "bytes": 4390
+    },
+    {
+      "path": "hydrosystem/bridge.py",
+      "sha256": "23c3ad5c3639bb42dc3bd3b3207d18a7eadd8a2bf9ad1fde343a17deae7ee51f",
+      "bytes": 4833
+    },
+    {
+      "path": "tests/test_bridge.py",
+      "sha256": "98ccec571e049c0593848f279444c106ced474802ed577a228e3b23994da28bf",
+      "bytes": 1999
+    }
+  ],
+  "old_artifact": {
+    "path": "artifacts/iheadwater-dsh-hydrosystem-0.0.1-dev.15.tgz",
+    "sha256": "197561e28440c459858be0441553e46dda55b33c1c54ede372eae97099c8b257",
+    "status": "old_official_desktop_only_not_next_accepted"
+  }
+}
