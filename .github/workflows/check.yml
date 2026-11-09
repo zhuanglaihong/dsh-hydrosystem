@@ -18,3 +18,4 @@ jobs:
           version: '11.28.5'
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check
+      - run: pnpm run pack:workspace --dry-run

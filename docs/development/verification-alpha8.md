@@ -12,4 +12,4 @@
 
 Node v24.21.0 下 pnpm run test 的发布元数据测试 1 项通过。实际 alpha.8 tarball 的 199 个公共核心 payload 文件哈希通过；工件 41,989,390 字节，SHA256 9fa9932f56028abc4efcb79433ddbf97c8d26c75569e924810f2ebe026903876。使用 D:/DSH NEXT/DSH NEXT.exe 自带 DSH 0.2.2-rc.1，在独立 web Profile 加载该包，普通模式、水文专家 preset、真实后台指标、即时取消和跨对话研究复用通过，报告为 .omx/next-final8/host-result.json。实际加载的 preset description 与新版本一致。
 
-正式 desktop Profile 当前仍为 alpha.7；用户的“水文专家身份与功能”对话正在运行，本轮保留该任务，没有安装或重启正式桌面。alpha.8 工件已生成，待任务结束后安装并重载 Host，再在新会话检查真实模型的引导回答。未提交、推送或公开发布。
+最初打包时正式 desktop Profile 保留 alpha.7，避免中断用户的“水文专家身份与功能”对话。随后在配套 UI 开发中，确认任务空闲后安装 alpha.8 并重启指定 Next，233 个安装文件与工件逐一匹配，实际 preset 描述已更新。基础源码提交为 302160d，未推送或公开发布；新会话真实模型的引导回答仍待独立验收。最新桌面安装和工作台验证见[工作台首版验收](verification-workspace.md)。

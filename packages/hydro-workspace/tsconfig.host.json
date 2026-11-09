@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "paths": {
+      "@deepseek-ai/cordis": [
+        "../../node_modules/@deepseek-ai/cordis/lib/types/index.d.ts"
+      ]
+    }
+  },
+  "include": [
+    "src/index.ts",
+    "src/host.ts",
+    "src/catalog.ts",
+    "src/model.ts",
+    "src/evidence.ts",
+    "src/projection.ts"
+  ]
+}

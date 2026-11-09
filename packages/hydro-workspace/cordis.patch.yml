@@ -1,0 +1,3 @@
+- insert:
+    - id: hydro-workspace
+      name: '@iheadwater/dsh-hydro-workspace'

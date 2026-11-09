@@ -1,8 +1,27 @@
 # 安装 alpha
 
+## 从 GitHub 安装
+
+普通用户使用本仓库 Releases 中分别构建的两个 tgz。GitHub 的 Source code.zip 是源码归档，不能替代插件安装包。待对应 Release 公开后，使用目标 Next 自带 CLI 分别执行：
+
+```sh
+dsh plugin --profile desktop add https://github.com/zhuanglaihong/dsh-hydrosystem/releases/download/tools-v0.1.0-alpha.9/iheadwater-dsh-hydrosystem-0.1.0-alpha.9.tgz
+dsh plugin --profile desktop add https://github.com/zhuanglaihong/dsh-hydrosystem/releases/download/workspace-v0.1.0-alpha.7/iheadwater-dsh-hydro-workspace-0.1.0-alpha.7.tgz
+```
+
+将 desktop 替换为实际使用的 Profile。Release 草稿的附件尚未公开，公开发布前使用管理员下载的本地 tgz 安装。两个插件分别安装，不自动安装另一包；首次准备科学环境仍需联网。
+
+维护者也可以克隆仓库，在根目录 pnpm install --frozen-lockfile、pnpm run check 后，按[构建说明](development/first-build.md)准备科学 payload，再分别打包并安装生成的 tgz。仓库根目录为 private workspace，子包没有脱离仓库的自包含 prepare 安装脚本；当前不支持把仓库首页或 Git 子目录地址直接当成一键源码构建安装入口。DSH 支持 Git 插件来源，不代表本仓库已实现该安装流程。
+
 目标是 DSH-Next 2.0.22-next／DSH 0.2.2-rc.1。使用本机 Next 自带的插件管理入口，安装本地 `iheadwater-dsh-hydrosystem-0.1.0-alpha.8.tgz`。该包尚未发布到 npm，包名搜索安装暂不可用。alpha.4 的程序化科学闭环保留在阶段验收，后续模型调用暴露的问题与当前版本验证见[alpha.7 修复记录](development/verification-alpha7.md)。alpha.7 复用 alpha.5 的同一科学 release；安装完成的环境可直接复用。
 
 通过 CLI 更新包后，插件页刷新显示的是安装元数据，不能单凭版本标签认定 Host 已加载新代码。确认没有需要继续运行的任务后，通过“应用 → 退出并重启”重启 Next；环境就绪后再检查实际工具声明和执行结果。重启会停止 Host，不能在科学任务运行中直接执行。已有数据、项目配置和研究结果保持原位置。
+
+## 配套工作台
+
+基础能力包和 UI 包分别安装。当前本机 desktop Profile 已加载基础 alpha.8 和工作台 alpha.6，无需再次安装；直接点击左侧“水文研究”，选择已有项目。UI 工件为 artifacts/iheadwater-dsh-hydro-workspace-0.1.0-alpha.6.tgz，通过目标 Next 自带 CLI 执行 `dsh plugin --profile desktop add file:<UI工件绝对路径>` 后，确认空闲并重启 Host。UI 默认读取同一 Profile 的 hydrosystem 目录；自定义基础存储位置时，为 hydro-workspace 配置相同的绝对 stateRoot。
+
+UI 包不重复安装 Python、科学依赖或模型接入，也不替换原生聊天界面。单独停用 UI 后，普通对话和水文专家仍可使用已启用的基础工具。首次没有项目时通过水文专家接入数据；已有项目时先选择研究，再查看任务。更多功能范围见[工作台说明](../packages/hydro-workspace/README.md)。
 
 ## 环境与数据
 

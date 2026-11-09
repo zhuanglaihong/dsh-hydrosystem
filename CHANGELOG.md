@@ -1,5 +1,13 @@
 # Changelog
 
+## Workspace 0.1.0-alpha.6 — Research management and wide conversations
+
+Move management pages to the left and render the native research conversation in the central area. Preserve the current conversation draft across management navigation and temporary file or artifact inspection. Collapse technical records by default, show readable data and artifact summaries, and provide explicit experiment-context copying. Use native modal focus and dismissal behavior for utility panels and compact navigation.
+
+## Workspace 0.1.0-alpha.3 — Companion research UI
+
+Add the native hydrology sidebar entry and research page as an independent package. Read real Study activities and artifact dependencies, preview hash-checked artifacts, and embed native DSH conversations. Recover conversation evidence through Session Projection. File access is scoped to registered research; the terminal panel currently exposes saved execution records.
+
 ## 0.1.0-alpha.8 — Guided hydrology conversations
 
 Introduce the four capability areas with ready-to-send examples for new users. Collect missing inputs gradually, explain progress and results in everyday language, and give relevant next actions. Capability introductions do not trigger scientific work; explicit tasks retain environment checks and failure stops.

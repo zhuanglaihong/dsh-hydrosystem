@@ -1,8 +1,17 @@
 # dsh-hydrosystem
 
-面向 DSH 的水文能力插件与科研工作台项目。目标是用户安装一个能力包，环境准备完成后即可在普通对话中调用数据准备、模型率定、模型训练、绘图与指标评估；选择“水文专家”preset 后获得水文研究经验、流程指导与证据报告规范。
+在一个仓库内维护两个独立的 DSH 插件：水文能力插件让普通 Agent 使用数据准备、模型率定、模型训练、绘图与指标评估，并提供“水文专家”preset；科研工作台插件提供研究管理、任务画布、成果查看和宽幅原生对话。
 
-当前提供本地候选 `@iheadwater/dsh-hydrosystem@0.1.0-alpha.8`，按可发布 npm bundle 组织，尚未公开发布。已实现独立托管环境、研究和数据接入引导、四类原生工具、DSH 后台任务和“水文专家”preset。目标基线是 DSH-Next 2.0.22-next，内含 DSH 0.2.2-rc.1／Cordis 4.1.0。
+源码仓库：[zhuanglaihong/dsh-hydrosystem](https://github.com/zhuanglaihong/dsh-hydrosystem)。两个插件分别安装、分别更新，当前均为本地候选，尚未公开发布。目标基线为 DSH-Next 2.0.22-next，内含 DSH 0.2.2-rc.1／Cordis 4.1.0。
+
+| 插件包 | 当前版本 | 使用方式 |
+|---|---|---|
+| `@iheadwater/dsh-hydrosystem` | `0.1.0-alpha.9` | 独立安装，准备科学环境并向 Agent 提供水文工具与 preset |
+| `@iheadwater/dsh-hydro-workspace` | `0.1.0-alpha.7` | 单独安装，在同一 Profile 查看能力插件产生的研究记录 |
+
+上表为补齐 GitHub 发行元数据后的源码候选版本；当前桌面已验收安装仍为能力 alpha.8 与 UI alpha.6，本轮未替换它们或生成新版本安装包。
+
+能力插件可在原生对话中独立使用。工作台不重复安装科学依赖，也不自动安装能力插件；完整水文研究体验需要分别安装这两个包。仓库根目录只管理开发与检查，不是第三个可安装插件。
 
 | 项目 | 职责 |
 |---|---|
@@ -28,11 +37,13 @@
 
 原项目的桌面对话已补测 CPU LSTM：两轮训练共 14 次优化步骤，固定权重评估覆盖独立 15 天且不新增优化步骤。alpha.7 包含同轮失败后的科学任务准入保护、正确状态查询提示和只读 JSON 产物核查，详见[训练与修复验收](docs/development/verification-alpha7.md)。
 
-新项目默认不设应用累计／单次额度和墙钟停止，保留实际用量与算法停止参数。quick／precise／custom 率定模式公开可调，不保证收敛或预测精度；已有研究配置保持原样。具体接入见[本地数据研究指南](docs/project-setup.md)。独立科研工作台 UI 按后续阶段交付。
+新项目默认不设应用累计／单次额度和墙钟停止，保留实际用量与算法停止参数。quick／precise／custom 率定模式公开可调，不保证收敛或预测精度；已有研究配置保持原样。具体接入见[本地数据研究指南](docs/project-setup.md)。配套 UI 位于同仓库的独立包 packages/hydro-workspace，按[工作台说明](packages/hydro-workspace/README.md)单独安装。
+
+工作台本地候选为 `@iheadwater/dsh-hydro-workspace@0.1.0-alpha.6`。左侧“水文研究”提供研究管理导航和真实任务依赖画布；研究助手使用中央宽幅原生对话，文件／产物／实验临时展开，执行记录在底部查看。原始配置与引用按需展开，普通页面优先展示研究名称、状态与结果。终端是只读记录，文件限研究已引用内容；最新范围与测试见[布局改版验收](docs/development/verification-workspace-layout.md)，首版记录保留在[原验收](docs/development/verification-workspace.md)。基础能力检查点为 `302160d`，UI 在 `codex/hydro-workspace` 分支继续开发。
 
 ## 安装与开始
 
-本地工件位于 `artifacts/iheadwater-dsh-hydrosystem-0.1.0-alpha.8.tgz`。通过目标 DSH 自带的插件管理入口安装该 tarball；已验证的开发安装入口是该 Next 安装所带 CLI 的 `dsh plugin --profile <Profile> add file:<绝对 tarball 路径>`。不要用 PATH 中其他版本的 dsh 代替。安装更新后须重载 Host 并核对实际工具声明，插件页刷新和新版本标签不能单独证明新代码已执行。具体配置与验收范围见[安装说明](docs/installation.md)。
+本地安装文件分别为 `artifacts/iheadwater-dsh-hydrosystem-0.1.0-alpha.8.tgz` 和 `artifacts/iheadwater-dsh-hydro-workspace-0.1.0-alpha.6.tgz`。使用目标 Next 自带的插件管理入口分别安装；已验证的 CLI 形式是 `dsh plugin --profile <Profile> add file:<绝对 tarball 路径>`。源码下载不包含这些生成文件；维护者从[构建说明](docs/development/first-build.md)生成安装包。不要用 PATH 中其他版本的 dsh 代替目标 Next。安装更新后须重载 Host 并核对实际工具和界面，具体配置见[安装说明](docs/installation.md)。
 
 alpha.8 的引导与验证范围见[使用引导更新](docs/development/verification-alpha8.md)。
 
@@ -43,14 +54,15 @@ alpha.8 的引导与验证范围见[使用引导更新](docs/development/verific
 ## 仓库结构
 
 ```text
-packages/hydrosystem-plugin/   可发布 bundle、preset、原生工具与 Python worker
+packages/hydrosystem-plugin/   可发布能力 bundle、preset、原生工具与 Python worker
+packages/hydro-workspace/      独立工作台 UI bundle、只读研究接口与会话引用投影
 scripts/                      核心 payload、打包校验与托管环境 smoke
 tests/                        工件、公共工具与 worker 协议测试
 docs/                         安装、开发和验收记录
 reference/                    只读历史参考，不参与构建
 ```
 
-维护者从[开发构建说明](docs/development/first-build.md)开始，当前结果见[alpha.7 修复记录](docs/development/verification-alpha7.md)，布尔参数历史见[alpha.5 修复记录](docs/development/verification-alpha5.md)。Apache-2.0 适用于本项目代码；随包 uv 的许可证保留在 `tools/licenses/`，科学依赖各自保留上游许可证。
+维护者从[开发构建说明](docs/development/first-build.md)开始，分别发布两个插件的流程见[发布指南](docs/releasing.md)，包之间的职责见[packages 说明](packages/README.md)。当前科学结果见[alpha.7 修复记录](docs/development/verification-alpha7.md)。Apache-2.0 适用于本项目代码；随包 uv 的许可证保留在 `tools/licenses/`，科学依赖各自保留上游许可证。
 
 ## 阅读入口
 

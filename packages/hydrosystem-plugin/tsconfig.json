@@ -9,7 +9,14 @@
     "sourceMap": true,
     "rootDir": "src",
     "outDir": "lib",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@deepseek-ai/cordis": [
+        "../../node_modules/@deepseek-ai/cordis/lib/types/index.d.ts"
+      ]
+    }
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts"
+  ]
 }

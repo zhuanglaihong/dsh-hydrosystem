@@ -1,6 +1,7 @@
 node_modules/
 .venv/
 .omx/
+.dsh-vision-router/
 __pycache__/
 *.pyc
 .env

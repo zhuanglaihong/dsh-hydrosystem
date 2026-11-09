@@ -23,3 +23,9 @@ alpha.3 增加 hydrosystem_setup_project，为每个新项目生成独立科学�
 `node scripts/smoke_managed.mjs <隔离状态目录>` 从默认插件入口安装环境并计算真实指标，保留 `smoke-result.json` 与安装日志。该脚本不调用模型，不消耗模型额度。重复执行可检查同版本环境复用；不要将测试目录用作正式研究目录。
 
 用匹配 Python 执行 `scripts/smoke_next.py --app <Next 可执行文件> --tarball <实际 tgz> --run-root <新的隔离验收目录> --state-root <托管环境目录> --port <空闲端口>`，调用目标 Next 自带 CLI 安装 tarball，并通过其 web Profile 加载真实 Host。探针创建隔离会话、装配标准模式和水文 preset、调用原生 jobs 并验收取消，不发送模型请求。`run-root` 必须不存在，防止混用已有 Profile；结果在其 `host-result.json`，日志与数据均保留。该检查不替代桌面窗口点击及模型自主选工具验收。
+
+## 工作台开发
+
+工作台源码在 packages/hydro-workspace，与基础能力分别发布。pnpm run check 同时检查两个包；UI 的 Host 与 Client 分别编译，浏览器入口由 scripts/build_workspace.mjs 生成 DSH ModuleLoader factory。执行 `npm pack --ignore-scripts --json --pack-destination artifacts ./packages/hydro-workspace` 生成独立 UI tarball，不运行科学 payload 打包器。开发类型依赖使用根目录同一份 Cordis，避免发布声明的可选 peer 组合产生两个 Context 类型身份。
+
+执行 `python scripts/smoke_workspace_next.py --app <Next可执行文件> --tarball <UI工件> --run-root <新的隔离目录> --state-root <基础能力状态目录> --port <空闲端口>` 启动真实隔离 Host。该进程输出 WORKSPACE_HOST_READY 后，以 PLAYWRIGHT_MODULE 指定已安装 Playwright 的绝对模块路径、HYDRO_WORKSPACE_RUN 指定同一隔离目录，执行 `node --test tests/workspace-browser.test.mjs`。测试只操作 UI，不发送模型请求。完成后在该隔离目录创建 stop 文件，关闭探针拥有的 Host；access.json 含本地访问凭证，不应提交或转发。验收结果见[工作台记录](verification-workspace.md)。
